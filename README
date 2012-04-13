@@ -13,6 +13,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ---EO GPLNOTICE---
 
+
+
 This program has the purpose of easing mathematical problems in situations in which you can only use a calculator that
 doesn't supports CAS natively.
 
@@ -35,4 +37,10 @@ It only uses standard c, so it must be realy easy to export for all the calculat
 ---Future Implementations---
   Symbolic -> To allow operations with symbols (such as pi, e, cos(x))
   Derivation -> To allow polynomial derivation and antiderivation
----EO Future Implementations
+---EO Future Implementations---
+
+---Working Calculators---
+on-release: FX-9860 SERIES (G, GII, GSD, GIISD)
+future releases: TI's, Prizm, etc
+Other Calculators: Just ask and contribute. That's why it's open source.
+---EO Working Calculators---
