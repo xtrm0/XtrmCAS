@@ -20,7 +20,8 @@ doesn't supports CAS natively.
 
 It is free to use.
 
-It only uses standard c, so its easy to export it to other calculators. All it need's to be built it's the TUI(Text User Interface).
+It only uses standard c, so its easy to export it to other calculators. All it need's to be built it's the 
+TUI(Text User Interface).
 
 ---File Info---
   arithmetic processor.c --> expression processor (input processor) & poly struct
