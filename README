@@ -21,6 +21,18 @@ It is free to use.
 It only uses standard c, so it must be realy easy to export for all the calculator that ar not in the suported list.
 
 ---File Info---
-  arithmetic processor.c -->
-
+  arithmetic processor.c --> expression processor (input processor) & poly struct
+  fract.h --> fractions code
+  matz.h --> some math expressions
 ---EO File Info---
+
+---Percentage Done---
+  arithmetic processor.c --> 20%
+  fract.h --> 30%
+  matz.h --> 100% (I'll just keep adding expressions as I need them)
+---EO Percentage Done---
+
+---Future Implementations---
+  Symbolic -> To allow operations with symbols (such as pi, e, cos(x))
+  Derivation -> To allow polynomial derivation and antiderivation
+---EO Future Implementations
