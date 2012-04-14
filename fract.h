@@ -3,17 +3,23 @@
 #include "string.h"
 #include "math.h"
 #include "matz.h"
-//so falta a funcao de simplificar
+
 typedef struct{
     int num, den;
-    int pos;// casos possiveis: -1 -> negativo, 0->0, 1-> positivo, 2->erro
+    int pos;// casos possiveis: -1 -> negativo, 1-> positivo, 2->erro
 }fract ;
+
 void simp_fract(fract * a){ //c = irreductible(c)
-     return;
+    int g;
+	g = x_gcd(a->num, a->den);
+    a->num = ((a->num) / g);
+	a->den = ((a->den) / g);
+    return;
 }
 
 bool isvalid_fract(fract * a) {
     if (a->den == 0 && a->num !=0) return false;
+	if (a->pos == 2) return false;
     return true;
 }
 
@@ -29,7 +35,8 @@ void add_fract(fract * a, fract * b, fract * c) {
      init_fract(c);
      if (!(isvalid_fract(a) && isvalid_fract(b))) {
         c->pos = 2;
-          print ("Erro: a/0, add_fract");
+        printf("Erro: a/0, add_fract");
+		return;
      }
      if (a->num==0) {
           c->den = b->den;
@@ -38,9 +45,9 @@ void add_fract(fract * a, fract * b, fract * c) {
           return;
      }
      if (b->num==0) {
-          c->den = b->den;
-          c->num = b->num;
-          c->pos = b->pos;
+          c->den = a->den;
+          c->num = a->num;
+          c->pos = a->pos;
           return;
      }
      g = x_lcm(b->den, a->den);
@@ -61,9 +68,17 @@ void subtr_fract(fract * a, fract * b, fract * c) {
 }
 
 void mult_fract(fract * a, fract * b, fract * c) {
-     c->den = a->den * b->den;
+	 c->den = a->den * b->den;
      c->num = a->num * b->num;
-     c->pos = a->pos * b->pos;     
+     c->pos = a->pos * b->pos;
+	 if (a->num==0 || b->num==0) {
+		c->pos = 1;
+		c->den = 0;
+	 }
+	 if (!(isvalid_fract(a) && isvalid_fract(b))) {
+        c->pos = 2;
+        printf("Erro: a/0, mult_fract");
+     }
      simp_fract(c);
      return;
 }

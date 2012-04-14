@@ -69,6 +69,5 @@ int main() {
     
     
     scanf("%d", &N);
-    return;
-    
+    return 0;
 }
