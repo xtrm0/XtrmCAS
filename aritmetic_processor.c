@@ -9,10 +9,21 @@
 int read_num(int i, char a[]) {
 	char number[30]="";
 	int k=0;
-	if (a[i] == '-' || a[i] == '+') {
+	if (a[i]=='x') return 1;
+	if (a[i] == '+') {
 		number[0] = a[i];
 		k++; 
 		i++;
+		if (a[i]=='x') {
+			return 1;
+		}
+	} else if (a[i] == '-') {
+		number[0] = a[i];
+		k++; 
+		i++;
+		if (a[i]=='x') {
+			return -1;
+		}
 	}
 	for (; unsigned(i)<strlen(a); i++) {
 		if (a[i]>='0' && a[i]<='9') {
@@ -20,9 +31,11 @@ int read_num(int i, char a[]) {
 			k++;
 			number[k]=0;
 		} else {
+//			printf("rn:%s\n", number);
 			return atoi(number);
 		}
 	}
+//	printf("rn:%s\n", number);
 	return atoi(number);
 }
 
@@ -31,31 +44,57 @@ void read_poly(poly * a, char inputz[], int st, int en) {
 	int i, n1, n2;
 	init_poly(a);
 	
-	for (i=st; i<=en; i++) {
-		if (inputz[i]=='x') {
+	for (i=st; i<=en;) {
+		//falta o caso de nao haver numero antes, e o caso de nao haver sinal+- para x^1
+		/*if ((inputz[i]=='+' && inputz[i+1]=='x')) {
 			a->quof[1] += 1;
+			printf("%d\n", i);
+			i+=2;
 			continue;
 		}
-		if (inputz[i+1]=='x') {
+		if (inputz[i]=='-' && inputz[i+1]=='x') {
 			a->quof[1] -= 1;
+			printf("%d\n", i);
+			i+=2;
 			continue;
-		}
+		}*/
 		n1 = read_num(i, inputz);
-		i+=  ((n1==0) ? (1) : ((int) (floor( log10( abs( n1 ) ) ) + 1)));
-		if (n1<0) i++;
+		if(inputz[i]=='+' || inputz[i]=='-') {
+			i++;
+		}
+		while(inputz[i]>='0' && inputz[i]<='9') i++;
 		if (inputz[i]=='*') {
 			i+=2;
 			if (inputz[i]=='^') {
 				i++;
 				n2 = read_num(i, inputz);
-				i+=((n1==0) ? (1) : ((int) (floor( log10( abs( n1 ) ) ) + 1)));
+				if(inputz[i]=='+' || inputz[i]=='-') {
+					i++;
+				}	
+				while(inputz[i]>='0' && inputz[i]<='9') i++;
 				a->quof[n2] += n1;
 			} else {
 				a->quof[1] += n1;
 			}
 		} else {
-			a->quof[0] += n1;
+			if(inputz[i]=='x') {
+				i++;
+				if (inputz[i]=='^') {
+					i++;
+					n2 = read_num(i, inputz);
+					if(inputz[i]=='+' || inputz[i]=='-') {
+						i++;
+					}	
+					while(inputz[i]>='0' && inputz[i]<='9') i++;
+					a->quof[n2] += n1;
+				} else {
+					a->quof[1] += n1;
+				}
+			} else {
+				a->quof[0] += n1;
+			}
 		}
+		printf("%d\n", i);
 	}
 	
 }
@@ -99,16 +138,11 @@ poly interpreta(char in[], int st, int en) {
 }
 int main() {
     int N;
-    int a;
-	char input[1000] = "-123";
-	char input2[1000] = "+123";
-	char input3[1000] = "0123309";
-    a = read_num(0, input);
-	printf("%d\n", a);
-    a = read_num(0, input2);
-	printf("%d\n", a);
-    a = read_num(0, input3);
-	printf("%d\n", a);
+    poly a;
+	char input[1000] = "2x^4+x^3-9x^2+6";
+    init_poly(&a);
+	read_poly(&a, input, 0, strlen(input)-1);
+	print_poly(&a);
 	
     //Quando o programa ler um P, significa que entre os proximos parentesis: 
 	//    1) nao havera outros parentesis

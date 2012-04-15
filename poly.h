@@ -17,11 +17,21 @@ void init_poly(poly * a) {
 
 void print_poly(poly * a) {
      int i;
-     for (i=MAXS-1; i>0; i--) {
+     for (i=MAXS-1; i>1; i--) {
          if (a->quof[i]!=0) {
-            printf("%d*x^%d + ", a->quof[i], i);                 
+			if (a->quof[i] >= 0) printf("+");
+			if (a->quof[i]==1) printf("x^%d", i);
+			else if (a->quof[i]==-1) printf("-x^%d", i);
+			else printf("%dx^%d", a->quof[i], i);                
          }
      }
+	 if (a->quof[1]!=0) {
+		if (a->quof[1] >= 0) printf("+");
+		if (a->quof[1]==1) printf("x");
+		else if (a->quof[1]==-1) printf("-x");
+		else printf("%dx", a->quof[1]);
+	 }
+	 if (a->quof[0]>=0) printf("+");
      printf("%d", a->quof[0]);                 
      printf("\n");
 }
