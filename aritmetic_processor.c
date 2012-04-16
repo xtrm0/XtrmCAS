@@ -45,19 +45,6 @@ void read_poly(poly * a, char inputz[], int st, int en) {
 	init_poly(a);
 	
 	for (i=st; i<=en;) {
-		//falta o caso de nao haver numero antes, e o caso de nao haver sinal+- para x^1
-		/*if ((inputz[i]=='+' && inputz[i+1]=='x')) {
-			a->quof[1] += 1;
-			printf("%d\n", i);
-			i+=2;
-			continue;
-		}
-		if (inputz[i]=='-' && inputz[i+1]=='x') {
-			a->quof[1] -= 1;
-			printf("%d\n", i);
-			i+=2;
-			continue;
-		}*/
 		n1 = read_num(i, inputz);
 		if(inputz[i]=='+' || inputz[i]=='-') {
 			i++;
@@ -101,34 +88,47 @@ void read_poly(poly * a, char inputz[], int st, int en) {
 
 //Estou aqui
 poly interpreta(char in[], int st, int en) {
+	//casos notaveis: /(-x*2)/, /((x*2))/, /(x)/
 	poly ret;
+	poly tmpa;
 	int i, par=0;
 	bool hasp;
 	int newst, newen;
 	init_poly(&ret);
-	for (i=st; i<=en; i++) {
-		if (in[i]=='(') {
-			hasp=true;
-			if (par==0) {
-				newst = i+1;
+	if (in[st]=='(' || in[st+1]=='(') {
+		for (i=st; i<=en; i++) {
+			if (in[i]=='(') {
+				hasp=true;
+				if (par==0) {
+					newst = i+1;
+				}
+				par++;
 			}
-			par++;
+			if (in[i]==')') {
+				if (par==0) {
+					printf("Erro: input mal formatado, interpreta, entre: %d, %d", st, en);
+				}
+				par--;
+				if (par==0) {
+					newen = i-1;
+					ret = interpreta(in, newst, newen);
+					i++;
+					break;
+				}
+			}
 		}
-		if (in[i]==')') {
-			if (par==0) {
-				printf("Erro: input mal formatado, interpreta");
-			}
-			par--;
-			if (par==0) {
-				newen = i-1;
-				ret = interpreta(in, newst, newen);
-				i++;
-				break;
-			}
+		if (par!=0) { //se der erro
+			printf("Erro: input mal formatado, interpreta, entre: %d, %d", st, en);
+			return ret;
+		}
+		if (in[st]=='-') {//aqui
+			ret = simetric_poly(&ret);
 		}
 	}
+
 	//MARCADO
 	if (hasp==true) {
+		
 		return ret;
 	} else {
 		read_poly(&ret, in, st, en);
@@ -139,7 +139,7 @@ poly interpreta(char in[], int st, int en) {
 int main() {
     int N;
     poly a;
-	char input[1000] = "2x^4+x^3-9x^2+6";
+	char input[1000] = "2x^4+x^3-9*x^2+6-x";
     init_poly(&a);
 	read_poly(&a, input, 0, strlen(input)-1);
 	print_poly(&a);

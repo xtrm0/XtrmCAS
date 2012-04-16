@@ -51,6 +51,14 @@ void subtr_poly(poly * a, poly * b, poly * c) { //c= a-b
      }
      return;
 }
+
+void simetric_poly(poly * a) {
+	int i;
+	for (i=0; i<MAXS; i++) {
+         a->quof[i] = - a->quof[i];
+     }
+     return;
+}
 void mult_poly(poly * a, poly * b, poly * c) { //c e o local a armazenar a variavel
      int i, j;
      init_poly(c);

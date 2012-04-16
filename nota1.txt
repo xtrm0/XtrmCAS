@@ -1,0 +1,2 @@
+Input devera estar na forma(letras representam polinomios):
+a+((b*c)/d)
