@@ -24,14 +24,16 @@ It only uses standard c, so its easy to export it to other calculators. All it n
 TUI(Text User Interface).
 
 ---File Info---
-  arithmetic processor.c --> expression processor (input processor) & poly struct
+  arithmetic processor.c --> expression processor (input processor)
+  poly.h --> polynomial code for 1 variable(x)
   fract.h --> fractions code
   matz.h --> some math expressions
 ---EO File Info---
 
 ---Percentage Done---
-  arithmetic processor.c --> 20%
-  fract.h --> 30%
+  arithmetic processor.c --> 50%
+  fract.h --> 100%
+  poly.h --> 60%
   matz.h --> 100% (I'll just keep adding expressions as I need them)
 ---EO Percentage Done---
 
