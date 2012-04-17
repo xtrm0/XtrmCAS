@@ -69,3 +69,5 @@ void mult_poly(poly * a, poly * b, poly * c) { //c e o local a armazenar a varia
      }
      return;
 }
+
+void pow_poly(poly * a, poly * b, poly * c);

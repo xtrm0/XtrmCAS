@@ -86,12 +86,12 @@ void read_poly(poly * a, char inputz[], int st, int en) {
 	
 }
 
-//Estou aqui
+/*
 poly interpreta(char in[], int st, int en) {
 	//casos notaveis: /(-x*2)/, /((x*2))/, /(x)/
 	poly ret;
 	poly tmpa;
-	int i, par=0;
+	int i, j, par=0;
 	bool hasp;
 	int newst, newen;
 	init_poly(&ret);
@@ -117,24 +117,86 @@ poly interpreta(char in[], int st, int en) {
 				}
 			}
 		}
-		if (par!=0) { //se der erro
+		if (par!=0) {
 			printf("Erro: input mal formatado, interpreta, entre: %d, %d", st, en);
 			return ret;
 		}
-		if (in[st]=='-') {//aqui
+		if (in[st]=='-') {
 			ret = simetric_poly(&ret);
 		}
 	}
-
+	j=newen+2;
 	//MARCADO
 	if (hasp==true) {
+		if (j>=en return true;
+		st = newen+2;
+		for (j=st; j<=en; j++) {
+			
+		}
 		
-		return ret;
 	} else {
 		read_poly(&ret, in, st, en);
 		return ret;
 	}
 	
+}
+//*/
+int programa() {
+	poly a, b ,c;
+	init_poly(&a); init_poly(&b); init_poly(&c);
+	int i;
+	int st, end;
+	int pars=0;
+	char input[1000];
+	scanf("%s", input);
+	if (input[0]=='q' || input[0]=='Q') return 1; //exit
+	if (input[0]=='*') {
+		for (i=1; unsigned(i)<strlen(input); i++) {
+			if (input[i]=='(') {
+				pars++;
+			}
+			if (input[i]==')') {
+				if (pars==0) {
+					printf("Erro: parentesis");
+					return -1;
+				}
+				pars--;
+				if (pars==0) {
+					break;
+				}
+			}
+		}
+		read_poly(a, input, 2, i-1);
+		st=i+2;
+		for (i=i+1; unsigned(i)<strlen(input); i++) {
+			if (input[i]=='(') {
+				pars++;
+			}
+			if (input[i]==')') {
+				if (pars==0) {
+					printf("Erro: parentesis");
+					return -1;
+				}
+				pars--;
+				if (pars==0) {
+					break;
+				}
+			}
+		}
+		read_poly(b, input, st, i-1);
+		add_poly(a, b, c);
+		print_poly(c);
+		return 0;
+	} else
+	if (input[0]=='/') {
+	
+	} else
+	if (input[0]=='-') {
+	
+	} else
+	if (input[0]=='+'= {
+	
+	}
 }
 int main() {
     int N;

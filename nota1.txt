@@ -1,2 +1,4 @@
 Input devera estar na forma(letras representam polinomios):
-a+((b*c)/d)
+simbolo((A)(B))
+ex:
+*((x+1)(x-1))
