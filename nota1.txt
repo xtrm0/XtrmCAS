@@ -1,4 +1,15 @@
-Input devera estar na forma(letras representam polinomios):
-simbolo((A)(B))
-ex:
-*((x+1)(x-1))
+input format:
+*(A)(B)
++(A)(B)
+-(A)(B)
+
+Future implementation:
+/(A)(B)
+d(A)(B) //derivation
+i(A)(B) //antiderivation
+f(A) //factorize
+
+Future
+s(expression) //Simplifies this mathematical expression
+
+A or B are polynomials with degree up to 51
