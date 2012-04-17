@@ -31,11 +31,9 @@ int read_num(int i, char a[]) {
 			k++;
 			number[k]=0;
 		} else {
-//			printf("rn:%s\n", number);
 			return atoi(number);
 		}
 	}
-//	printf("rn:%s\n", number);
 	return atoi(number);
 }
 
@@ -81,7 +79,6 @@ void read_poly(poly * a, char inputz[], int st, int en) {
 				a->quof[0] += n1;
 			}
 		}
-		printf("%d\n", i);
 	}
 	
 }
@@ -140,16 +137,16 @@ poly interpreta(char in[], int st, int en) {
 	}
 	
 }
-//*/
+// */
 int programa() {
 	poly a, b ,c;
 	init_poly(&a); init_poly(&b); init_poly(&c);
 	int i;
-	int st, end;
+	int st;
 	int pars=0;
 	char input[1000];
 	scanf("%s", input);
-	if (input[0]=='q' || input[0]=='Q') return 1; //exit
+	if (input[0]=='q' || input[0]=='Q') return 0; //exit
 	if (input[0]=='*') {
 		for (i=1; unsigned(i)<strlen(input); i++) {
 			if (input[i]=='(') {
@@ -166,7 +163,7 @@ int programa() {
 				}
 			}
 		}
-		read_poly(a, input, 2, i-1);
+		read_poly(&a, input, 2, i-1);
 		st=i+2;
 		for (i=i+1; unsigned(i)<strlen(input); i++) {
 			if (input[i]=='(') {
@@ -183,28 +180,131 @@ int programa() {
 				}
 			}
 		}
-		read_poly(b, input, st, i-1);
-		add_poly(a, b, c);
-		print_poly(c);
-		return 0;
+		read_poly(&b, input, st, i-1);
+		mult_poly(&a, &b, &c);
+		print_poly(&c);
+		return 1;
 	} else
-	if (input[0]=='/') {
-	
-	} else
+/*	if (input[0]=='/') {
+			for (i=1; unsigned(i)<strlen(input); i++) {
+			if (input[i]=='(') {
+				pars++;
+			}
+			if (input[i]==')') {
+				if (pars==0) {
+					printf("Erro: parentesis");
+					return -1;
+				}
+				pars--;
+				if (pars==0) {
+					break;
+				}
+			}
+		}
+		read_poly(&a, input, 2, i-1);
+		st=i+2;
+		for (i=i+1; unsigned(i)<strlen(input); i++) {
+			if (input[i]=='(') {
+				pars++;
+			}
+			if (input[i]==')') {
+				if (pars==0) {
+					printf("Erro: parentesis");
+					return -1;
+				}
+				pars--;
+				if (pars==0) {
+					break;
+				}
+			}
+		}
+		read_poly(&b, input, st, i-1);
+		div_poly(&a, &b, &c);
+		print_poly(&c);
+		return 1;
+	} else // */
 	if (input[0]=='-') {
-	
+				for (i=1; unsigned(i)<strlen(input); i++) {
+			if (input[i]=='(') {
+				pars++;
+			}
+			if (input[i]==')') {
+				if (pars==0) {
+					printf("Erro: parentesis");
+					return -1;
+				}
+				pars--;
+				if (pars==0) {
+					break;
+				}
+			}
+		}
+		read_poly(&a, input, 2, i-1);
+		st=i+2;
+		for (i=i+1; unsigned(i)<strlen(input); i++) {
+			if (input[i]=='(') {
+				pars++;
+			}
+			if (input[i]==')') {
+				if (pars==0) {
+					printf("Erro: parentesis");
+					return -1;
+				}
+				pars--;
+				if (pars==0) {
+					break;
+				}
+			}
+		}
+		read_poly(&b, input, st, i-1);
+		subtr_poly(&a, &b, &c);
+		print_poly(&c);
+		return 1;
 	} else
-	if (input[0]=='+'= {
-	
+	if (input[0]=='+') {
+			for (i=1; unsigned(i)<strlen(input); i++) {
+			if (input[i]=='(') {
+				pars++;
+			}
+			if (input[i]==')') {
+				if (pars==0) {
+					printf("Erro: parentesis");
+					return -1;
+				}
+				pars--;
+				if (pars==0) {
+					break;
+				}
+			}
+		}
+		read_poly(&a, input, 2, i-1);
+		st=i+2;
+		for (i=i+1; unsigned(i)<strlen(input); i++) {
+			if (input[i]=='(') {
+				pars++;
+			}
+			if (input[i]==')') {
+				if (pars==0) {
+					printf("Erro: parentesis");
+					return -1;
+				}
+				pars--;
+				if (pars==0) {
+					break;
+				}
+			}
+		}
+		read_poly(&b, input, st, i-1);
+		add_poly(&a,&b, &c);
+		print_poly(&c);
+		return 1;
 	}
+	//else
+	return -1;
 }
 int main() {
-    int N;
-    poly a;
-	char input[1000] = "2x^4+x^3-9*x^2+6-x";
-    init_poly(&a);
-	read_poly(&a, input, 0, strlen(input)-1);
-	print_poly(&a);
+	int N;
+	while (programa()>0);
 	
     //Quando o programa ler um P, significa que entre os proximos parentesis: 
 	//    1) nao havera outros parentesis
