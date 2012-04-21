@@ -1,7 +1,7 @@
-#include "stdio.h"
-#include "stdlib.h"
-#include "string.h"
-#include "math.h"
+#ifndef _FRACT
+#define _FRACT
+#include <string.h>
+#include <math.h>
 #include "matz.h"
 
 typedef struct{
@@ -17,10 +17,10 @@ void simp_fract(fract * a){ //c = irreductible(c)
     return;
 }
 
-bool isvalid_fract(fract * a) {
-    if (a->den == 0 && a->num !=0) return false;
-	if (a->pos == 2) return false;
-    return true;
+int isvalid_fract(fract * a) {
+    if (a->den == 0 && a->num !=0) return 0;
+	if (a->pos == 2) return 0;
+    return 1;
 }
 
 void init_fract(fract * c) {
@@ -35,7 +35,7 @@ void add_fract(fract * a, fract * b, fract * c) {
      init_fract(c);
      if (!(isvalid_fract(a) && isvalid_fract(b))) {
         c->pos = 2;
-        printf("Erro: a/0, add_fract");
+        print("Erro: a/0, add_fract");
 		return;
      }
      if (a->num==0) {
@@ -64,6 +64,7 @@ void add_fract(fract * a, fract * b, fract * c) {
 void subtr_fract(fract * a, fract * b, fract * c) {
      b->pos = b->pos * -1;
      add_fract(a, b, c);
+	 b->pos = b->pos * -1;
      return;
 }
 
@@ -77,7 +78,7 @@ void mult_fract(fract * a, fract * b, fract * c) {
 	 }
 	 if (!(isvalid_fract(a) && isvalid_fract(b))) {
         c->pos = 2;
-        printf("Erro: a/0, mult_fract");
+        print("Erro: a/0, mult_fract");
      }
      simp_fract(c);
      return;
@@ -86,8 +87,17 @@ void mult_fract(fract * a, fract * b, fract * c) {
 void div_fract(fract * a, fract * b, fract * c){
      c->den = a->den * b->num;
      c->num = a->num * b->den;
-     c->pos = a->pos * b->pos;     
+     c->pos = a->pos * b->pos; 
+	 if(c->den==0) {
+		print("indefenido");
+		return;
+	 }
+	 if(c->num==0) {
+		c->den=0;
+		c->pos=1;
+		return;
+	 }
      simp_fract(c);
      return;
 }
-
+#endif

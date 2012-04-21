@@ -1,0 +1,17 @@
+[DLSimProject]
+Name=XtrmCAS
+Version=0.1
+Model=:fx-9860G.dlm
+SourcePath=SRC
+MemoryPath=INIT
+MemCardPath=SDCard
+
+[Program1]
+Program=XTRMCAS.G1A
+Debug=Debug\FXADDINror.dbg
+LoadAddress=80000000:90100000
+
+[Files]
+SourceFile=:XtrmCAS.c
+SourceFile=:console.c
+SourceFile=:MonochromeLib.c

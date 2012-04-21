@@ -1,4 +1,3 @@
-#include "stdio.h"
 #include "poly.h" //my polynomials class, /
 //this method is based on the fact that all real rational must be in the form (a/b), where a is a divisor
 //of the the highest rank poly, and b is a dividor of the lowest rank one.
@@ -22,16 +21,16 @@ void printandfind(poly * a) {
 	for (i=MAXS; i>=0 && a->quof[i]==0; i--);
 	lst=i;
 	sum=0;
-	printf ("%d,%d\n",fst, lst);
+	print ("%i,%i\n\0",fst, lst);
 	for (i=1; i<=a->quof[fst]; i++) {
 		if (a->quof[fst]%i==0) {
 			for (j=1; j<=a->quof[lst]; j++) {
 				if (a->quof[lst]%j==0) {
 					sum=0;
 					for (k=0; k<MAXS; k++) {
-						sum += a->quof[k]*x_pow((double(i) / double(j)), k);
+						sum += a->quof[k]*x_pow(((double)i / (double)j), k);
 					}
-					if (fabs(sum)<=0.0001) printf("%d/%d is a zero\n",i,j); //Once poly_division is done, this can be upated to find factors  
+					if (fabs(sum)<=0.0001) print("%i/%i is a zero\n\0",i,j); //Once poly_division is done, this can be upated to find factors  
 				}
 			}
 		}
@@ -50,5 +49,4 @@ int main() {
 	a.quof[2]=1; a.quof[1]=-7; a.quof[0]=12;
 	printandfind(&a);
 	return 0;
-
 }

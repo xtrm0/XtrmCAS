@@ -88,7 +88,52 @@ char getchar()
 				inputSize--;
 				inputPtr--;
 			}
-			if(key < 256 && inputSize<BUFFER_SIZE-1) {
+			if (key==KEY_CHAR_MULT && inputSize<BUFFER_SIZE-1) {
+				putchar('*');
+				*inputPtr = '*';
+				inputPtr++;
+				inputSize++;
+			} else if (key==KEY_CHAR_DIV && inputSize<BUFFER_SIZE-1) {
+				putchar('/');
+				*inputPtr = '/';
+				inputPtr++;
+				inputSize++;
+			} else if (key==KEY_CHAR_PLUS && inputSize<BUFFER_SIZE-1) {
+				putchar('+');
+				*inputPtr = '+';
+				inputPtr++;
+				inputSize++;
+			} else if (key==KEY_CHAR_MINUS && inputSize<BUFFER_SIZE-1) {
+				putchar('-');
+				*inputPtr = '-';
+				inputPtr++;
+				inputSize++;
+			} else if (key==KEY_CTRL_XTT && inputSize<BUFFER_SIZE-1) {
+				putchar('x');
+				*inputPtr = 'x';
+				inputPtr++;
+				inputSize++;
+			} else if (key==KEY_CHAR_POW && inputSize<BUFFER_SIZE-1) {
+				putchar('^');
+				*inputPtr = '^';
+				inputPtr++;
+				inputSize++;
+			} else if (key==KEY_CHAR_SQUARE && inputSize<BUFFER_SIZE-1) {
+				putchar('^');
+				*inputPtr = '^';
+				inputPtr++;
+				inputSize++;
+				putchar('2');
+				*inputPtr = '2';
+				inputPtr++;
+				inputSize++;
+			} else if (key==KEY_CTRL_EXIT && inputSize<BUFFER_SIZE-1) {
+				putchar('q');
+				*inputPtr = 'q';
+				inputPtr++;
+				inputSize++;
+				break;
+			} else if(key < 256 && inputSize<BUFFER_SIZE-1) {
 				putchar(key);
 				*inputPtr = key;
 				inputPtr++;
