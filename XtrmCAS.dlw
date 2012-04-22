@@ -3,20 +3,20 @@
 [_1]
 Type=5
 Order=0
-Top=1065
+Top=345
 Left=9960
 Height=4740
 Width=5565
 State=0
 Flags=00000020
-Setting=173:1:MonochromeLib.c
+Setting=42:1:console.c
 OptionA=0
 
 [_2]
 Type=1
 Order=2
-Top=-255
-Left=2970
+Top=-1005
+Left=-405
 Height=4470
 Width=5685
 State=0
@@ -27,8 +27,8 @@ OptionB=15
 [_3]
 Type=6
 Order=1
-Top=2010
-Left=9060
+Top=-765
+Left=4860
 Height=7065
 Width=5535
 State=0
@@ -97,7 +97,7 @@ Top=1560
 Left=5385
 Height=7395
 Width=12330
-State=16
+State=0
 Flags=00000000
 OptionA=0
 
@@ -110,7 +110,7 @@ Height=4590
 Width=5595
 State=16
 Flags=00000020
-Setting=125:1:poly.h
+Setting=191:1:poly.h
 OptionA=0
 
 [_33]

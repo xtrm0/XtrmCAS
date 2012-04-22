@@ -88,7 +88,11 @@ void div_fract(fract * a, fract * b, fract * c){
      c->den = a->den * b->num;
      c->num = a->num * b->den;
      c->pos = a->pos * b->pos; 
-	 if(c->den==0) {
+	 if (a->num==0 && b->num==0) {
+		c->pos = 1;
+		return;
+	 }
+	 if(c->den==0 && c->num!=0) {
 		print("indefenido");
 		return;
 	 }
@@ -99,5 +103,27 @@ void div_fract(fract * a, fract * b, fract * c){
 	 }
      simp_fract(c);
      return;
+}
+
+void pow_fract(fract * a, int expon) {
+	int i;
+	fract tmp;
+	fract tmpans;
+	tmp.num = a->num;
+	tmp.den = a->den;
+	tmp.pos = a->pos;
+	if (i==0) {
+		a->pos=1;
+		a->num=1;
+		a->den=1;
+	}
+	for (i=1; i<expon; i++) {
+		tmpans.num = a->num;
+		tmpans.den = a->den;
+		tmpans.pos = a->pos;
+		mult_fract(&tmpans, &tmp, a);
+	}
+	simp_fract(a);
+	return;
 }
 #endif

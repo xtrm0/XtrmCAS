@@ -241,7 +241,44 @@ int programa() {
 		add_poly(&a,&b, &c);
 		print_poly(&c);
 		return 1;
-	} else if (input[0]=='/') {
+	} else if (input[0]=='R' || input[0]=='r') {
+		for (i=1; (unsigned)i<strlen(input); i++) {
+			if (input[i]=='(') {
+				pars++;
+			}
+			if (input[i]==')') {
+				if (pars==0) {
+					print("Erro: parentesis\n");
+					return -1;
+				}
+				pars--;
+				if (pars==0) {
+					break;
+				}
+			}
+		}
+		read_poly(&a, input, 2, i-1);
+		st=i+2;
+		for (i=i+1; (unsigned)i<strlen(input); i++) {
+			if (input[i]=='(') {
+				pars++;
+			}
+			if (input[i]==')') {
+				if (pars==0) {
+					print("Erro: parentesis\n");
+					return -1;
+				}
+				pars--;
+				if (pars==0) {
+					break;
+				}
+			}
+		}
+		read_poly(&b, input, st, i-1);
+		rem_poly(&a, &b, &c);
+		print_poly(&c);
+		return 1;
+	}else if (input[0]=='/') {
 		for (i=1; (unsigned)i<strlen(input); i++) {
 			if (input[i]=='(') {
 				pars++;
@@ -277,6 +314,25 @@ int programa() {
 		read_poly(&b, input, st, i-1);
 		div_poly(&a, &b, &c);
 		print_poly(&c);
+		return 1;
+	}else if (input[0]=='F') {
+		for (i=1; (unsigned)i<strlen(input); i++) {
+			if (input[i]=='(') {
+				pars++;
+			}
+			if (input[i]==')') {
+				if (pars==0) {
+					print("Erro: parentesis\n");
+					return -1;
+				}
+				pars--;
+				if (pars==0) {
+					break;
+				}
+			}
+		}
+		read_poly(&a, input, 2, i-1);
+		factor_poly(&a);
 		return 1;
 	}
 	print("nao foi possivel processar o input\n");
