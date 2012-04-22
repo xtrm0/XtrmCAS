@@ -6,3 +6,7 @@ Multiplication: *(A)(B)
 0.1.1->Fixed Minor Buggs:
 Added the following symbols: '^'. '^2', 'exit'
 Allows the user to quit
+
+0.2-> Added division:
+Added fractions to the polynomial class
+Division: /(A)(B)
