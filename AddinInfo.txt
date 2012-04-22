@@ -1,0 +1,12 @@
+//------------------------------------------------------------------
+// Addin-Application header control file, created with the CASIO SDK
+//------------------------------------------------------------------
+[OUTPUT]     : "XTRMCAS.G1A"
+[BINDATA]    : "FXADDINror.bin"
+[DISPNAME]   : "XtrmCAS"
+[APPNAME]    : "@XTRMCAS"
+[VERSION]    : "00.01.0000"
+[APL_ICON]   : "MainIcon.bmp"
+[MODULE_NUM] : 0
+[MOD1_TITLE] : "XtrmCAS"
+[MOD1_ICON]  : "eActivityIcon.bmp"

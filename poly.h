@@ -114,11 +114,12 @@ void div_poly(poly * a, poly * b, poly * c) { // a/b
 			if (a->quof[k].num!=0) break;
 		}
 		if (k<g) break;
+		if (k==g && a->quof[k].num==0) break; 
 		div_fract(&(a->quof[k]), &(b->quof[g]), &tmp);
-		c->quof[g-k] = tmp;
+		c->quof[k-g] = tmp;
 		for (i=g; i>=0; i--) {
 			mult_fract(&(b->quof[i]), &tmp, &tmp1);
-			subtr_fract(&(a->quof[i]), &tmp1, &(resto.quof[i+k-g]));
+			subtr_fract(&(a->quof[i+k-g]), &tmp1, &(resto.quof[i+k-g]));
 		}
 		for (i=0; i<=MAXS; i++) {
 			a->quof[i].num=resto.quof[i].num;

@@ -1,0 +1,8 @@
+0.1->First Release:
+Addition: +(A)(B)
+Subtractio: -(A)(B)
+Multiplication: *(A)(B)
+
+0.1.1->Fixed Minor Buggs:
+Added the following symbols: '^'. '^2', 'exit'
+Allows the user to quit
