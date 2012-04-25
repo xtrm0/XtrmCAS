@@ -18,7 +18,7 @@
 /******************************/
 /** Dependencies management  **/
 /******************************/
-
+#define ML_CLEAR_SCREEN
 #ifdef ML_ALL
 	#define ML_CLEAR_VRAM
 	#define ML_CLEAR_SCREEN

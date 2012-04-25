@@ -27,7 +27,8 @@ int AddIn_main(int isAppli, unsigned short OptionNum)
     unsigned int key;
 
     Bdisp_AllClr_DDVRAM();
-
+	ML_clear_screen();
+    locate(1,1);
     doloop();
 	locate(1,1);
 	Print((unsigned char*)"Adeus");

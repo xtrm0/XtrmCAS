@@ -70,6 +70,47 @@ void print_poly(poly * a) {
 	print("\n");
 }
 
+void print_poly_noendl(poly * a) {
+     int i;
+	 if (poly_degree(a)==-1) {
+		print("0");
+		return;
+	 }
+     for (i=MAXS-1; i>1; i--) {
+         if (a->quof[i].num!=0) {
+			if (a->quof[i].pos == 1) print("+");
+			else if (a->quof[i].pos == -1) print("-");
+			else print("erro");
+			if (a->quof[i].den==1) {
+				if (a->quof[i].num==1) print("x^%i", i);
+				else print("%ix^%i", a->quof[i].num, i);  
+			} else {
+				print("(%i/%i)x^%i", a->quof[i].num, a->quof[i].den, i);
+			}
+         }
+     }
+	 if (a->quof[1].num!=0) {
+		if (a->quof[1].pos == 1) print("+");
+		else if (a->quof[1].pos == -1) print("-");
+		else print("erro");
+		if (a->quof[1].den==1) {
+			if (a->quof[1].num==1) print("x");
+			else print("%ix", a->quof[1].num);  
+		} else {
+			print("(%i/%i)x", a->quof[1].num, a->quof[1].den);
+		}
+    }
+	if (a->quof[0].num!=0) {
+		if (a->quof[0].pos == 1) print("+");
+		else if (a->quof[0].pos == -1) print("-");
+		else print("erro");
+		if (a->quof[0].den==1) {
+			print("%i", a->quof[0].num);  
+		} else {
+			print("(%i/%i)", a->quof[0].num, a->quof[0].den);
+		}
+    }
+}
 
 void add_poly(poly * a, poly * b, poly * c) { //c=a+b
      int i;
@@ -148,7 +189,7 @@ void div_poly(poly * a, poly * b, poly * c) { // c=a/b
 	return;
 }
 
-void rem_poly(poly * a, poly * b, poly * c) { // a/b
+void rem_poly(poly * a, poly * b, poly * c) { // c=a%b
 	poly resto, tmp2;
 	fract tmp, tmp1, tmp3;
 	int i, j, k, g;
@@ -190,167 +231,119 @@ void rem_poly(poly * a, poly * b, poly * c) { // a/b
 }
 
 //EU ESTOU AQUI AQUI
-void factor_poly(poly * a) {
-	int fst, lst, i,j,k;
-	fract sum, tmpsum1, tmpsum2;
-	poly tmp, tmp1;
-	init_poly(&tmp);
-	init_poly(&tmp1);
-	if (poly_degree(a)==0) {
-		print("(%i)\n", a->quof[0]);
+void factor_poly(poly * a, fract * lf) {
+	int lwr, bgr, i, j, k;
+	poly lcp, calc, tmp1, tmp2;
+	fract newls;
+	if (poly_degree(a)==-1) { 
+		if (lf->num!=0) {
+			if (lf->pos == -1) print("(-");
+			else print("(");
+			if (lf->den==1) {
+				print("%i)", lf->num);  
+			} else {
+				print("%i/%i)", lf->num, lf->den);
+			}
+		}
+		print("\n");
+		print("degree=-1\n");
 		return;
 	}
-	if (poly_degree(a)==-1) {
+	if (poly_degree(a)<=1) {
+		print("("); print_poly_noendl(a); print(")");
+		if (lf->num!=0) {
+			if (lf->pos == -1) print("(-");
+			else print("(");
+			if (lf->den==1) {
+				print("%i)", lf->num);  
+			} else {
+				print("%i/%i)", lf->num, lf->den);
+			}
+		}
+		print("\n");
+		print("degree<=1\n");
 		return;
 	}
-	if (a->quof[0].num==0) {
-		print("(x)");
-		tmp.quof[1].num=1;
-		tmp.quof[1].den=1;
-		tmp.quof[1].pos=1;
-		div_poly(a, &tmp, &tmp1);
-		if (poly_degree(&tmp1)>=0) {
-			factor_poly(&tmp1);
-			return;
-		} else {
-			print ("\n");
-			return;
-		}	
-	}
-	for (i=0; i<MAXS && a->quof[i].num==0; i++); 
-	fst=i;
-	for (i=MAXS; i>=0 && a->quof[i].num==0; i--);
-	lst=i;
-	tmp.quof[0].den=1;
-	tmp.quof[0].num=x_lcm(a->quof[fst].den, a->quof[lst].den);
-	tmp.quof[0].pos=1;
-	if (tmp.quof[0].num!=1) {
-		if(a->quof[lst].pos==-1) {
-			tmp.quof[0].pos=-1;
-			print("(-(1/%i))", tmp.quof[0].num);
-		} else {
-			print("(1/%i)", tmp.quof[0].num);
-		}
-	} else {
-		if(a->quof[lst].pos==-1) {
-			tmp.quof[0].pos=-1;
-			print("(-1)");
-		}
-	}
-	mult_poly(a, &tmp, &tmp1);
-	init_fract(&sum);
-	for (i=1; i<=tmp1.quof[fst].num; i++) {
-		if (tmp1.quof[fst].num%i==0) {
-			for (j=1; j<=tmp1.quof[lst].num; j++) { 
-				if (tmp1.quof[lst].num%j==0) {
-					init_fract(&sum);                  
-					for (k=0; k<MAXS; k++) {
-						init_fract(&tmpsum1);
-						init_fract(&tmpsum2);
-						tmpsum1.num=i;
-						tmpsum1.den=j;
-						tmpsum1.pos=1;
-						simp_fract(&tmpsum1);
-						pow_fract(&tmpsum1, k);
-						mult_fract(&tmpsum1, &(tmp1.quof[k]), &tmpsum2);
-						add_fract(&sum, &tmpsum2, &tmpsum1);
-						sum.num = tmpsum1.num;
-						sum.den = tmpsum1.den;
-						sum.pos = tmpsum1.pos;
-					}
-					if (sum.num==0) {
-						tmp.quof[1].num=1;
-						tmp.quof[1].den=1;
-						tmp.quof[1].pos=1;
-						tmp.quof[0].num=i;
-						tmp.quof[0].den=j;
-						tmp.quof[0].pos=-1;
-						simp_fract(&tmp.quof[0]);
-						div_poly(&tmp1,&tmp, a);
-						if (tmp.quof[0].den==1) {
-							if(tmp.quof[0].pos==-1) {
-								print("(x+%i)", tmp.quof[0].num);
-							} else if(tmp.quof[0].pos==1) {
-								print("(x-%i)", tmp.quof[0].num);
-							}
-						} else if(tmp.quof[0].num==0) {
-							print("(x)");
-						} else {
-							if(tmp.quof[0].pos==-1) {
-								print("(x+(%i/%i))", tmp.quof[0].num, tmp.quof[0].den);
-							} else if(tmp.quof[0].pos==1) {
-								print("(x-%i)", tmp.quof[0].num, tmp.quof[0].den);
-							}
-						}
-						
-						if (poly_degree(a)>=0) {
-							factor_poly(a);
-							return;
-						} else {
-							print ("\n");
-							return;
-						}						
-						
-					}
-				}
-				if (tmp1.quof[lst].num%j==0) {
-					init_fract(&sum);                  
-					for (k=0; k<MAXS; k++) {
-						init_fract(&tmpsum1);
-						init_fract(&tmpsum2);
-						tmpsum1.num=i;
-						tmpsum1.den=j;
-						tmpsum1.pos=-1;
-						simp_fract(&tmpsum1);
-						pow_fract(&tmpsum1, k);
-						mult_fract(&tmpsum1, &(tmp1.quof[k]), &tmpsum2);
-						add_fract(&sum, &tmpsum2, &tmpsum1);
-						sum.num = tmpsum1.num;
-						sum.den = tmpsum1.den;
-						sum.pos = tmpsum1.pos;
-					}
-					if (sum.num==0) {
-						tmp.quof[1].num=1;
-						tmp.quof[1].den=1;
-						tmp.quof[1].pos=1;
-						tmp.quof[0].num=i;
-						tmp.quof[0].den=j;
-						tmp.quof[0].pos=1;
-						simp_fract(&tmp.quof[0]);
-						div_poly(&tmp1,&tmp, a);
-						if (tmp.quof[0].den==1) {
-							if(tmp.quof[0].pos==-1) {
-								print("(x+%i)", tmp.quof[0].num);
-							} else if(tmp.quof[0].pos==1) {
-								print("(x-%i)", tmp.quof[0].num);
-							}
-						} else if(tmp.quof[0].num==0) {
-							print("(x)");
-						} else {
-							if(tmp.quof[0].pos==-1) {
-								print("(x+(%i/%i))", tmp.quof[0].num, tmp.quof[0].den);
-							} else if(tmp.quof[0].pos==1) {
-								print("(x-%i)", tmp.quof[0].num, tmp.quof[0].den);
-							}
-						}
-						
-						if (poly_degree(a)>=0) {
-							factor_poly(a);
-							return;
-						} else {
-							print ("\n");
-							return;
-						}						
-						
-					}
-				}
+	for (i=0; i<=MAXS && a->quof[i].num==0; i++);
+	lwr=i;
+	bgr=poly_degree(a);
+	init_poly(&lcp);
+	lcp.quof[0].num=x_lcm(x_lcm(a->quof[lwr].den, a->quof[lwr].num), x_lcm(a->quof[bgr].den, a->quof[bgr].num));
+	lcp.quof[0].den=1;
+	lcp.quof[0].pos=1;
+	mult_poly(a, &lcp, &calc);
+	div_fract(&lf, &(lcp.quof[0]), &newls);
+	for (i=1; i<=calc.quof[lwr].num; i++) {
+		if (calc.quof[lwr].num%i!=0) continue;
+		for (j=1; j<=calc.quof[bgr].num; j++) {
+			if (calc.quof[bgr].num%j!=0) continue;
+			print("loop:%i,%i\n", i, j);
+			//agora testar para (x-(i/j))
+			init_poly(&tmp1);
+			tmp1.quof[1].num=1;
+			tmp1.quof[1].den=1;
+			tmp1.quof[1].pos=1;
+			tmp1.quof[0].num=i;
+			tmp1.quof[0].den=j;
+			tmp1.quof[0].pos=-1;
+			simp_fract(&(tmp1.quof[0]));
+			rem_poly(&calc, &tmp1, &tmp2);
+			if (poly_degree(&tmp2)==-1) {
+				div_poly(&calc, &tmp1, &tmp2);
+				print("("); print_poly_noendl(&tmp2); print(")");
+				factor_poly(&tmp2, &newls);
+				return;
+			}
+			
+			//agora testar para (x+(i/j))
+			init_poly(&tmp1);
+			tmp1.quof[1].num=1;
+			tmp1.quof[1].den=1;
+			tmp1.quof[1].pos=1;
+			tmp1.quof[0].num=i;
+			tmp1.quof[0].den=j;
+			tmp1.quof[0].pos=1;
+			simp_fract(&(tmp1.quof[0]));
+			rem_poly(&calc, &tmp1, &tmp2);
+			if (poly_degree(&tmp2)==-1) {
+				div_poly(&calc, &tmp1, &tmp2);
+				print("("); print_poly_noendl(&tmp2); print(")");
+				factor_poly(&tmp2, &newls);
+				return;
+			}
+			
+			//agora testar para (-x-(i/j)
+			init_poly(&tmp1);
+			tmp1.quof[1].num=1;
+			tmp1.quof[1].den=1;
+			tmp1.quof[1].pos=-1;
+			tmp1.quof[0].num=i;
+			tmp1.quof[0].den=j;
+			tmp1.quof[0].pos=-1;
+			simp_fract(&(tmp1.quof[0]));
+			rem_poly(&calc, &tmp1, &tmp2);
+			if (poly_degree(&tmp2)==-1) {
+				div_poly(&calc, &tmp1, &tmp2);
+				print("("); print_poly_noendl(&tmp2); print(")");
+				factor_poly(&tmp2, &newls);
+				return;
 			}
 		}
 	}
-	print("(");
-	print_poly(a);
 	//aplly wikipedia's method to a simplified equation(reduces complexity)
 	//TD
+	print("("); print_poly_noendl(a); print(")");
+	if (newls.num!=0) {
+		if (newls.pos == -1) print("(-");
+		else print("(");
+		if (newls.den==1) {
+			print("%i)", newls.num);  
+		} else {
+			print("%i/%i)", newls.num, newls.den);
+		}
+    }
+	print("\n");
+	print("EOf");
 	return;
 }
 

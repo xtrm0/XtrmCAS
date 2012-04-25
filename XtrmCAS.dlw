@@ -9,15 +9,15 @@ Height=4740
 Width=5565
 State=0
 Flags=00000020
-Setting=133:1:poly.h
+Setting=279:1:poly.h
 OptionA=0
 
 [_2]
 Type=1
-Order=3
+Order=2
 Top=-1005
 Left=-405
-Height=4470
+Height=4020
 Width=5685
 State=0
 Flags=00000000
@@ -28,16 +28,16 @@ OptionB=15
 Type=6
 Order=1
 Top=-765
-Left=4860
+Left=4815
 Height=7065
-Width=5535
+Width=5580
 State=0
 Flags=00000001
 OptionA=0
 
 [_4]
 Type=7
-Order=6
+Order=8
 Top=4740
 Left=2220
 Height=3600
@@ -48,7 +48,7 @@ OptionA=0
 
 [_5]
 Type=8
-Order=5
+Order=7
 Top=5400
 Left=9705
 Height=3810
@@ -81,18 +81,18 @@ OptionA=0
 
 [_8]
 Type=17
-Order=7
+Order=5
 Top=150
 Left=975
 Height=10980
 Width=2235
-State=16
+State=0
 Flags=00000000
 OptionA=0
 
 [_9]
 Type=15
-Order=2
+Order=3
 Top=255
 Left=5895
 Height=7395
@@ -103,24 +103,24 @@ OptionA=0
 
 [_32]
 Type=16
-Order=4
+Order=6
 Top=1290
 Left=4590
 Height=4590
 Width=5595
 State=0
 Flags=00000020
-Setting=269:1:poly.h
+Setting=330:1:poly.h
 OptionA=0
 
 [_33]
 Type=16
-Order=8
+Order=4
 Top=2250
 Left=2250
 Height=6465
 Width=15885
-State=16
+State=0
 Flags=00000020
-Setting=41:1:console.c
+Setting=30:17:XtrmCAS.c
 OptionA=0

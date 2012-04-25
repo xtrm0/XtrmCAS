@@ -115,6 +115,7 @@ void read_poly(poly * a, char inputz[], int st, int en) {
 int programa() {
 	int xd=1;
 	poly a, b ,c;
+	fract tmp;
 	int i;
 	int st;
 	int pars=0;
@@ -333,7 +334,10 @@ int programa() {
 		}
 		read_poly(&a, input, 2, i-1);
 		print_poly(&a);
-		factor_poly(&a);
+		tmp.num=1;
+		tmp.den=1;
+		tmp.pos=1;
+		factor_poly(&a, &tmp);
 		return 1;
 	}
 	print("nao foi possivel processar o input\n");
