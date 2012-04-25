@@ -112,11 +112,9 @@ void pow_fract(fract * a, int expon) {
 	tmp.num = a->num;
 	tmp.den = a->den;
 	tmp.pos = a->pos;
-	if (i==0) {
-		a->pos=1;
-		a->num=1;
-		a->den=1;
-	}
+	a->pos=1;
+	a->num=1;
+	a->den=1;
 	for (i=1; i<expon; i++) {
 		tmpans.num = a->num;
 		tmpans.den = a->den;

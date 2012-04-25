@@ -19,8 +19,20 @@ void init_poly(poly * a) {
      return;
 }
 
+int poly_degree(poly * a) {
+	int i;
+	for (i=MAXS; i>=0; i++) {
+		if(a->quof[i].num!=0) return i;
+	}
+	return -1; //polinomio 0
+}
+
 void print_poly(poly * a) {
      int i;
+	 if (poly_degree(a)==-1) {
+		print("0\n");
+		return;
+	 }
      for (i=MAXS-1; i>1; i--) {
          if (a->quof[i].num!=0) {
 			if (a->quof[i].pos == 1) print("+");
@@ -57,6 +69,7 @@ void print_poly(poly * a) {
     }
 	print("\n");
 }
+
 
 void add_poly(poly * a, poly * b, poly * c) { //c=a+b
      int i;
@@ -183,42 +196,159 @@ void factor_poly(poly * a) {
 	poly tmp, tmp1;
 	init_poly(&tmp);
 	init_poly(&tmp1);
+	if (poly_degree(a)==0) {
+		print("(%i)\n", a->quof[0]);
+		return;
+	}
+	if (poly_degree(a)==-1) {
+		return;
+	}
+	if (a->quof[0].num==0) {
+		print("(x)");
+		tmp.quof[1].num=1;
+		tmp.quof[1].den=1;
+		tmp.quof[1].pos=1;
+		div_poly(a, &tmp, &tmp1);
+		if (poly_degree(&tmp1)>=0) {
+			factor_poly(&tmp1);
+			return;
+		} else {
+			print ("\n");
+			return;
+		}	
+	}
 	for (i=0; i<MAXS && a->quof[i].num==0; i++); 
 	fst=i;
 	for (i=MAXS; i>=0 && a->quof[i].num==0; i--);
 	lst=i;
 	tmp.quof[0].den=1;
-	tmp.quof[0].num=x_lcm(x_lcm(a->quof[fst].num, a->quof[fst].den), x_lcm(a->quof[lst].num, a->quof[lst].den));
+	tmp.quof[0].num=x_lcm(a->quof[fst].den, a->quof[lst].den);
+	tmp.quof[0].pos=1;
+	if (tmp.quof[0].num!=1) {
+		if(a->quof[lst].pos==-1) {
+			tmp.quof[0].pos=-1;
+			print("(-(1/%i))", tmp.quof[0].num);
+		} else {
+			print("(1/%i)", tmp.quof[0].num);
+		}
+	} else {
+		if(a->quof[lst].pos==-1) {
+			tmp.quof[0].pos=-1;
+			print("(-1)");
+		}
+	}
 	mult_poly(a, &tmp, &tmp1);
-	
 	init_fract(&sum);
-	for (i=1; i<=a->quof[fst].num; i++) {
-		if (a->quof[fst].num%i==0) {
-			for (j=1; j<=a->quof[lst].num; j++) { 
-				if (a->quof[lst].num%j==0) { //duplicar isto, para fazer para +- i
-					init_fract(&sum);
+	for (i=1; i<=tmp1.quof[fst].num; i++) {
+		if (tmp1.quof[fst].num%i==0) {
+			for (j=1; j<=tmp1.quof[lst].num; j++) { 
+				if (tmp1.quof[lst].num%j==0) {
+					init_fract(&sum);                  
 					for (k=0; k<MAXS; k++) {
 						init_fract(&tmpsum1);
 						init_fract(&tmpsum2);
-						tmpsum1.num=(i < 0 ? -i : i);
-						tmpsum1.den=(j < 0 ? -j : j);
-						tmpsum1.pos=(j < 0 ? (i < 0 ? 1 : -1) : (i < 0 ? -1 : 1));
+						tmpsum1.num=i;
+						tmpsum1.den=j;
+						tmpsum1.pos=1;
 						simp_fract(&tmpsum1);
 						pow_fract(&tmpsum1, k);
-						mult_fract(&tmpsum1, &(a->quof[k]), &tmpsum2);
+						mult_fract(&tmpsum1, &(tmp1.quof[k]), &tmpsum2);
 						add_fract(&sum, &tmpsum2, &tmpsum1);
 						sum.num = tmpsum1.num;
 						sum.den = tmpsum1.den;
 						sum.pos = tmpsum1.pos;
 					}
 					if (sum.num==0) {
-						print("found!: %i/%i\n", i, j);
-						return;
+						tmp.quof[1].num=1;
+						tmp.quof[1].den=1;
+						tmp.quof[1].pos=1;
+						tmp.quof[0].num=i;
+						tmp.quof[0].den=j;
+						tmp.quof[0].pos=-1;
+						simp_fract(&tmp.quof[0]);
+						div_poly(&tmp1,&tmp, a);
+						if (tmp.quof[0].den==1) {
+							if(tmp.quof[0].pos==-1) {
+								print("(x+%i)", tmp.quof[0].num);
+							} else if(tmp.quof[0].pos==1) {
+								print("(x-%i)", tmp.quof[0].num);
+							}
+						} else if(tmp.quof[0].num==0) {
+							print("(x)");
+						} else {
+							if(tmp.quof[0].pos==-1) {
+								print("(x+(%i/%i))", tmp.quof[0].num, tmp.quof[0].den);
+							} else if(tmp.quof[0].pos==1) {
+								print("(x-%i)", tmp.quof[0].num, tmp.quof[0].den);
+							}
+						}
+						
+						if (poly_degree(a)>=0) {
+							factor_poly(a);
+							return;
+						} else {
+							print ("\n");
+							return;
+						}						
+						
 					}
-				} //end duplicar
+				}
+				if (tmp1.quof[lst].num%j==0) {
+					init_fract(&sum);                  
+					for (k=0; k<MAXS; k++) {
+						init_fract(&tmpsum1);
+						init_fract(&tmpsum2);
+						tmpsum1.num=i;
+						tmpsum1.den=j;
+						tmpsum1.pos=-1;
+						simp_fract(&tmpsum1);
+						pow_fract(&tmpsum1, k);
+						mult_fract(&tmpsum1, &(tmp1.quof[k]), &tmpsum2);
+						add_fract(&sum, &tmpsum2, &tmpsum1);
+						sum.num = tmpsum1.num;
+						sum.den = tmpsum1.den;
+						sum.pos = tmpsum1.pos;
+					}
+					if (sum.num==0) {
+						tmp.quof[1].num=1;
+						tmp.quof[1].den=1;
+						tmp.quof[1].pos=1;
+						tmp.quof[0].num=i;
+						tmp.quof[0].den=j;
+						tmp.quof[0].pos=1;
+						simp_fract(&tmp.quof[0]);
+						div_poly(&tmp1,&tmp, a);
+						if (tmp.quof[0].den==1) {
+							if(tmp.quof[0].pos==-1) {
+								print("(x+%i)", tmp.quof[0].num);
+							} else if(tmp.quof[0].pos==1) {
+								print("(x-%i)", tmp.quof[0].num);
+							}
+						} else if(tmp.quof[0].num==0) {
+							print("(x)");
+						} else {
+							if(tmp.quof[0].pos==-1) {
+								print("(x+(%i/%i))", tmp.quof[0].num, tmp.quof[0].den);
+							} else if(tmp.quof[0].pos==1) {
+								print("(x-%i)", tmp.quof[0].num, tmp.quof[0].den);
+							}
+						}
+						
+						if (poly_degree(a)>=0) {
+							factor_poly(a);
+							return;
+						} else {
+							print ("\n");
+							return;
+						}						
+						
+					}
+				}
 			}
 		}
 	}
+	print("(");
+	print_poly(a);
 	//aplly wikipedia's method to a simplified equation(reduces complexity)
 	//TD
 	return;

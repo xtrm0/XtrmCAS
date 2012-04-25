@@ -9,12 +9,12 @@ Height=4740
 Width=5565
 State=0
 Flags=00000020
-Setting=42:1:console.c
+Setting=133:1:poly.h
 OptionA=0
 
 [_2]
 Type=1
-Order=2
+Order=3
 Top=-1005
 Left=-405
 Height=4470
@@ -37,23 +37,23 @@ OptionA=0
 
 [_4]
 Type=7
-Order=7
+Order=6
 Top=4740
 Left=2220
-Height=3165
-Width=5565
-State=16
+Height=3600
+Width=7185
+State=17
 Flags=00000000
 OptionA=0
 
 [_5]
 Type=8
 Order=5
-Top=6420
-Left=10140
-Height=3225
-Width=5580
-State=16
+Top=5400
+Left=9705
+Height=3810
+Width=7710
+State=0
 Flags=00000000
 OptionA=0
 
@@ -81,7 +81,7 @@ OptionA=0
 
 [_8]
 Type=17
-Order=6
+Order=7
 Top=150
 Left=975
 Height=10980
@@ -92,9 +92,9 @@ OptionA=0
 
 [_9]
 Type=15
-Order=3
-Top=1560
-Left=5385
+Order=2
+Top=255
+Left=5895
 Height=7395
 Width=12330
 State=0
@@ -104,13 +104,13 @@ OptionA=0
 [_32]
 Type=16
 Order=4
-Top=1215
-Left=6465
+Top=1290
+Left=4590
 Height=4590
 Width=5595
-State=16
+State=0
 Flags=00000020
-Setting=191:1:poly.h
+Setting=269:1:poly.h
 OptionA=0
 
 [_33]

@@ -1,7 +1,7 @@
 0.1->First Release:
-Addition: +(A)(B)
-Subtractio: -(A)(B)
-Multiplication: *(A)(B)
+Addition: +(A)(B)                      // (A+B)
+Subtractio: -(A)(B)                    // (A-B)
+Multiplication: *(A)(B)                // (A*B)
 
 0.1.1->Fixed Minor Buggs:
 Added the following symbols: '^'. '^2', 'exit'
@@ -9,4 +9,11 @@ Allows the user to quit
 
 0.2-> Added division:
 Added fractions to the polynomial class
-Division: /(A)(B)
+Division: /(A)(B)                      // (A/B)
+
+0.2.0.1->Added remainder
+Fixed a bug with division
+Remainder: R(A)(B)                     // Remainder of (A/B)
+
+0.3->Added Rational Factoring
+Factoring: F(A)                        // (A) factorized in Q
