@@ -6,11 +6,11 @@ if exist XTRMCAS.G1A  del XTRMCAS.G1A
 
 cd debug
 if exist FXADDINror.bin  del FXADDINror.bin
-"C:\CASIOSDK\OS\SH\Bin\Hmake.exe" Addin.mak
+"C:\CASIO\fx9860SDK\OS\SH\Bin\Hmake.exe" Addin.mak
 cd ..
 if not exist debug\FXADDINror.bin  goto error
 
-"C:\CASIOSDK\Tools\MakeAddinHeader363.exe" "C:\Users\Xtrm0\Documents\CASIO\fx-9860G SDK\XtrmCAS"
+"C:\CASIO\fx9860SDK\Tools\MakeAddinHeader363.exe" "C:\Users\Afonso\Documents\GitHub\XtrmCAS"
 if not exist XTRMCAS.G1A  goto error
 echo Build has completed.
 goto end

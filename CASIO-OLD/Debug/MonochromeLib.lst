@@ -1,0 +1,1853 @@
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 16-Dec-2013 17:27:13  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: C:\Users\Afonso\Documents\GitHub\XtrmCAS\MonochromeLib.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+      Monochrome     1    /*************************************************************/
+      Monochrome     2    /** MonochromeLib - monochrome graphic library for fx-9860G **/
+      Monochrome     3    /** MonochromeLib is free software                          **/
+      Monochrome     4    /**                                                         **/
+      Monochrome     5    /** @author Pierre "PierrotLL" Le Gall                      **/
+      Monochrome     6    /** @contact legallpierre89@gmail.com                       **/
+      Monochrome     7    /**                                                         **/
+      Monochrome     8    /** @file MonochromeLib.c                                   **/
+      Monochrome     9    /** Code file of MonochromeLib                              **/
+      Monochrome    10    /**                                                         **/
+      Monochrome    11    /** @date 11-22-2011                                        **/
+      Monochrome    12    /*************************************************************/
+      Monochrome    13    
+      Monochrome    14    #include "MonochromeLib.h"
+      Monochrome    15    #include <stdlib.h>
+      Monochrome    16    
+      Monochrome    17    
+      Monochrome    18    /******************************/
+      Monochrome    19    /** Dependencies management  **/
+      Monochrome    20    /******************************/
+      Monochrome    21    #define ML_CLEAR_SCREEN
+      Monochrome    22    #ifdef ML_ALL
+      Monochrome    23            #define ML_CLEAR_VRAM
+      Monochrome    24            #define ML_CLEAR_SCREEN
+      Monochrome    25            #define ML_DISPLAY_VRAM
+      Monochrome    26            #define ML_SET_CONTRAST
+      Monochrome    27            #define ML_GET_CONTRAST
+      Monochrome    28            #define ML_PIXEL
+      Monochrome    29            #define ML_POINT
+      Monochrome    30            #define ML_PIXEL_TEST
+      Monochrome    31            #define ML_LINE
+      Monochrome    32            #define ML_HORIZONTAL_LINE
+      Monochrome    33            #define ML_VERTICAL_LINE
+      Monochrome    34            #define ML_RECTANGLE
+      Monochrome    35            #define ML_POLYGON
+      Monochrome    36            #define ML_FILLED_POLYGON
+      Monochrome    37            #define ML_CIRCLE
+      Monochrome    38            #define ML_FILLED_CIRCLE
+      Monochrome    39            #define ML_ELLIPSE
+      Monochrome    40            #define ML_ELLIPSE_IN_RECT
+      Monochrome    41            #define ML_FILLED_ELLIPSE
+      Monochrome    42            #define ML_FILLED_ELLIPSE_IN_RECT
+      Monochrome    43            #define ML_HORIZONTAL_SCROLL
+      Monochrome    44            #define ML_VERTICAL_SCROLL
+      Monochrome    45            #define ML_BMP_OR
+      Monochrome    46            #define ML_BMP_AND
+      Monochrome    47            #define ML_BMP_XOR
+      Monochrome    48            #define ML_BMP_OR_CL
+      Monochrome    49            #define ML_BMP_AND_CL
+      Monochrome    50            #define ML_BMP_XOR_CL
+      Monochrome    51            #define ML_BMP_8_OR
+      Monochrome    52            #define ML_BMP_8_AND
+      Monochrome    53            #define ML_BMP_8_XOR
+      Monochrome    54            #define ML_BMP_8_OR_CL
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 16-Dec-2013 17:27:13  PAGE    2
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+      Monochrome    55            #define ML_BMP_8_AND_CL
+      Monochrome    56            #define ML_BMP_8_XOR_CL
+      Monochrome    57            #define ML_BMP_16_OR
+      Monochrome    58            #define ML_BMP_16_AND
+      Monochrome    59            #define ML_BMP_16_XOR
+      Monochrome    60            #define ML_BMP_16_OR_CL
+      Monochrome    61            #define ML_BMP_16_AND_CL
+      Monochrome    62            #define ML_BMP_16_XOR_CL
+      Monochrome    63    #endif
+      Monochrome    64    
+      Monochrome    65    #ifdef ML_POLYGON
+      Monochrome    66            #define ML_LINE
+      Monochrome    67    #endif
+      Monochrome    68    
+      Monochrome    69    #ifdef ML_LINE
+      Monochrome    70            #define ML_PIXEL
+      Monochrome    71    #endif
+      Monochrome    72    
+      Monochrome    73    #ifdef ML_POINT
+      Monochrome    74            #define ML_PIXEL
+      Monochrome    75            #define ML_RECTANGLE
+      Monochrome    76    #endif
+      Monochrome    77    
+      Monochrome    78    #ifdef ML_RECTANGLE
+      Monochrome    79            #define ML_HORIZONTAL_LINE
+      Monochrome    80    #endif
+      Monochrome    81    
+      Monochrome    82    #ifdef ML_FILLED_POLYGON
+      Monochrome    83            #define ML_HORIZONTAL_LINE
+      Monochrome    84    #endif
+      Monochrome    85    
+      Monochrome    86    #ifdef ML_CIRCLE
+      Monochrome    87            #define ML_PIXEL
+      Monochrome    88    #endif
+      Monochrome    89    
+      Monochrome    90    #ifdef ML_FILLED_CIRCLE
+      Monochrome    91            #define ML_HORIZONTAL_LINE
+      Monochrome    92    #endif
+      Monochrome    93    
+      Monochrome    94    #ifdef ML_ELLIPSE_IN_RECT
+      Monochrome    95            #define ML_ELLIPSE
+      Monochrome    96    #endif
+      Monochrome    97    
+      Monochrome    98    #ifdef ML_ELLIPSE
+      Monochrome    99            #define ML_PIXEL
+      Monochrome   100    #endif
+      Monochrome   101    
+      Monochrome   102    #ifdef ML_FILLED_ELLIPSE_IN_RECT
+      Monochrome   103            #define ML_FILLED_ELLIPSE
+      Monochrome   104    #endif
+      Monochrome   105    
+      Monochrome   106    #ifdef ML_FILLED_ELLIPSE
+      Monochrome   107            #define ML_HORIZONTAL_LINE
+      Monochrome   108    #endif
+      Monochrome   109    
+      Monochrome   110    
+      Monochrome   111    /***************/
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 16-Dec-2013 17:27:13  PAGE    3
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+      Monochrome   112    /** Functions **/
+      Monochrome   113    /***************/
+      Monochrome   114    
+      Monochrome   115    #define sgn(x)  (x<0?-1:1)
+      Monochrome   116    #define rnd(x)  ((int)(x+0.5))
+      Monochrome   117    
+      Monochrome   118    //Thanks to Simon Lothar for this function
+      Monochrome   119    static int SysCallCode[] = {0xD201422B,0x60F20000,0x80010070};
+      Monochrome   120    static int (*SysCall)( int R4, int R5, int R6, int R7, int FNo ) = (void*)&SysCallCode;
+      Monochrome   121    char* ML_vram_adress()
+P   00000000              _ML_vram_adress:                 ; function: ML_vram_adress
+                                                           ; frame size=8
+    00000000 4F22                   STS.L       PR,@-R15
+      Monochrome   122    {
+      Monochrome   123            return (char*)((*SysCall)(0, 0, 0, 0, 309));
+    00000002 E700                   MOV         #0,R7
+    00000004 D346                   MOV.L       L339+4,R3  ; __$SysCall
+    00000006 6673                   MOV         R7,R6
+    00000008 9288                   MOV.W       L339,R2    ; H'0135
+    0000000A 6573                   MOV         R7,R5
+    0000000C 6032                   MOV.L       @R3,R0
+    0000000E 2F26                   MOV.L       R2,@-R15
+    00000010 400B                   JSR         @R0
+    00000012 6473                   MOV         R7,R4
+      Monochrome   124    }
+    00000014 7F04                   ADD         #4,R15
+    00000016 4F26                   LDS.L       @R15+,PR
+    00000018 000B                   RTS
+    0000001A 0009                   NOP
+      Monochrome   125    
+      Monochrome   126    #ifdef ML_CLEAR_VRAM
+      Monochrome   127    void ML_clear_vram()
+    0000001C              _ML_clear_vram:                  ; function: ML_clear_vram
+                                                           ; frame size=8
+    0000001C 2FD6                   MOV.L       R13,@-R15
+    0000001E 4F22                   STS.L       PR,@-R15
+      Monochrome   128    {
+      Monochrome   129            int i, end, *pointer_long, vram;
+      Monochrome   130            char *pointer_byte;
+      Monochrome   131            vram = (int)ML_vram_adress();
+    00000020 BFEE                   BSR         _ML_vram_adress
+    00000022 0009                   NOP
+    00000024 6703                   MOV         R0,R7
+      Monochrome   132            end = 4-vram&3;
+    00000026 E004                   MOV         #4,R0
+    00000028 3078                   SUB         R7,R0
+    0000002A E603                   MOV         #3,R6
+    0000002C 2609                   AND         R0,R6
+      Monochrome   133            pointer_byte = (char*)vram;
+    0000002E 6D73                   MOV         R7,R13
+      Monochrome   134            for(i=0 ; i<end ; i++) pointer_byte[i] = 0;
+    00000030 E400                   MOV         #0,R4
+    00000032 6143                   MOV         R4,R1
+    00000034 4615                   CMP/PL      R6
+    00000036 8F05                   BF/S        L325
+    00000038 6573                   MOV         R7,R5
+    0000003A              L326:                             
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 16-Dec-2013 17:27:13  PAGE    4
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    0000003A 7101                   ADD         #1,R1
+    0000003C 2540                   MOV.B       R4,@R5
+    0000003E 3163                   CMP/GE      R6,R1
+    00000040 8FFB                   BF/S        L326
+    00000042 7501                   ADD         #1,R5
+    00000044              L325:                             
+    00000044 906B                   MOV.W       L339+2,R0  ; H'03FC
+      Monochrome   135            pointer_long = (int*) (vram+end);
+    00000046 6163                   MOV         R6,R1
+    00000048 317C                   ADD         R7,R1
+    0000004A 6513                   MOV         R1,R5
+    0000004C 301C                   ADD         R1,R0
+      Monochrome   136            for(i=0 ; i<255 ; i++) pointer_long[i] = 0;
+    0000004E              L327:                             
+    0000004E 2542                   MOV.L       R4,@R5
+    00000050 7504                   ADD         #4,R5
+    00000052 3502                   CMP/HS      R0,R5
+    00000054 8BFB                   BF          L327
+      Monochrome   137            pointer_byte += 1020+end;
+    00000056 9262                   MOV.W       L339+2,R2  ; H'03FC
+    00000058 362C                   ADD         R2,R6
+    0000005A 3D6C                   ADD         R6,R13
+      Monochrome   138            end = vram&3;
+    0000005C E603                   MOV         #3,R6
+    0000005E 2679                   AND         R7,R6
+      Monochrome   139            for(i=0 ; i<end ; i++) pointer_byte[i] = 0;
+    00000060 6743                   MOV         R4,R7
+    00000062 4615                   CMP/PL      R6
+    00000064 8F05                   BF/S        L328
+    00000066 65D3                   MOV         R13,R5
+    00000068              L329:                             
+    00000068 2540                   MOV.B       R4,@R5
+    0000006A 7701                   ADD         #1,R7
+    0000006C 3763                   CMP/GE      R6,R7
+    0000006E 8FFB                   BF/S        L329
+    00000070 7501                   ADD         #1,R5
+    00000072              L328:                             
+      Monochrome   140    }
+    00000072 4F26                   LDS.L       @R15+,PR
+    00000074 000B                   RTS
+    00000076 6DF6                   MOV.L       @R15+,R13
+      Monochrome   141    #endif
+      Monochrome   142    
+      Monochrome   143    #ifdef ML_CLEAR_SCREEN
+      Monochrome   144    void ML_clear_screen()
+    00000078              _ML_clear_screen:                ; function: ML_clear_screen
+                                                           ; frame size=12
+    00000078 2FC6                   MOV.L       R12,@-R15
+      Monochrome   145    {
+      Monochrome   146            char *LCD_register_selector = (char*)0xB4000000, *LCD_data_register = (char*)0xB4010000;
+      Monochrome   147            int i, j;
+      Monochrome   148            for(i=0 ; i<64 ; i++)
+    0000007A E704                   MOV         #4,R7
+    0000007C D529                   MOV.L       L339+8,R5  ; H'B4000000
+    0000007E E600                   MOV         #0,R6
+    00000080 D429                   MOV.L       L339+12,R4 ; H'B4010000
+    00000082 EC07                   MOV         #7,R12
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 16-Dec-2013 17:27:13  PAGE    5
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000084 2FB6                   MOV.L       R11,@-R15
+    00000086 6163                   MOV         R6,R1
+    00000088 2FA6                   MOV.L       R10,@-R15
+    0000008A EB10                   MOV         #16,R11
+    0000008C EA40                   MOV         #64,R10
+    0000008E              L330:                             
+      Monochrome   149            {
+      Monochrome   150                    *LCD_register_selector = 4;
+      Monochrome   151                    *LCD_data_register = i|192;
+    0000008E E3C0                   MOV         #-64,R3
+    00000090 2570                   MOV.B       R7,@R5
+      Monochrome   152                    *LCD_register_selector = 4;
+      Monochrome   153                    *LCD_data_register = 0;
+      Monochrome   154                    *LCD_register_selector = 7;
+      Monochrome   155                    for(j=0 ; j<16 ; j++) *LCD_data_register = 0;
+    00000092 60B3                   MOV         R11,R0
+    00000094 231B                   OR          R1,R3
+    00000096 2430                   MOV.B       R3,@R4
+    00000098 2570                   MOV.B       R7,@R5
+    0000009A 2460                   MOV.B       R6,@R4
+    0000009C 25C0                   MOV.B       R12,@R5
+    0000009E              L331:                             
+    0000009E 4010                   DT          R0
+    000000A0 8FFD                   BF/S        L331
+    000000A2 2460                   MOV.B       R6,@R4
+    000000A4 7101                   ADD         #1,R1
+    000000A6 31A3                   CMP/GE      R10,R1
+    000000A8 8BF1                   BF          L330
+      Monochrome   156            }
+      Monochrome   157    }
+    000000AA 6AF6                   MOV.L       @R15+,R10
+    000000AC 6BF6                   MOV.L       @R15+,R11
+    000000AE 000B                   RTS
+    000000B0 6CF6                   MOV.L       @R15+,R12
+      Monochrome   158    #endif
+      Monochrome   159    
+      Monochrome   160    #ifdef ML_DISPLAY_VRAM
+      Monochrome   161    void ML_display_vram()
+    000000B2              _ML_display_vram:                ; function: ML_display_vram
+                                                           ; frame size=20
+    000000B2 2FC6                   MOV.L       R12,@-R15
+    000000B4 2FB6                   MOV.L       R11,@-R15
+    000000B6 2FA6                   MOV.L       R10,@-R15
+    000000B8 2F96                   MOV.L       R9,@-R15
+    000000BA 4F22                   STS.L       PR,@-R15
+      Monochrome   162    {
+      Monochrome   163            char *LCD_register_selector = (char*)0xB4000000, *LCD_data_register = (char*)0xB4010000, *vram;
+      Monochrome   164            int i, j;
+      Monochrome   165            vram = ML_vram_adress();
+    000000BC BFA0                   BSR         _ML_vram_adress
+    000000BE 0009                   NOP
+      Monochrome   166            for(i=0 ; i<64 ; i++)
+    000000C0 D518                   MOV.L       L339+8,R5  ; H'B4000000
+    000000C2 6C03                   MOV         R0,R12
+    000000C4 D418                   MOV.L       L339+12,R4 ; H'B4010000
+    000000C6 E940                   MOV         #64,R9
+    000000C8 EA10                   MOV         #16,R10
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 16-Dec-2013 17:27:13  PAGE    6
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    000000CA EB07                   MOV         #7,R11
+    000000CC E100                   MOV         #0,R1
+    000000CE E704                   MOV         #4,R7
+    000000D0 6013                   MOV         R1,R0
+    000000D2              L332:                             
+      Monochrome   167            {
+      Monochrome   168                    *LCD_register_selector = 4;
+      Monochrome   169                    *LCD_data_register = i|192;
+    000000D2 E2C0                   MOV         #-64,R2
+    000000D4 2570                   MOV.B       R7,@R5
+      Monochrome   170                    *LCD_register_selector = 4;
+      Monochrome   171                    *LCD_data_register = 0;
+      Monochrome   172                    *LCD_register_selector = 7;
+      Monochrome   173                    for(j=0 ; j<16 ; j++) *LCD_data_register = *vram++;
+    000000D6 66A3                   MOV         R10,R6
+    000000D8 220B                   OR          R0,R2
+    000000DA 2420                   MOV.B       R2,@R4
+    000000DC 2570                   MOV.B       R7,@R5
+    000000DE 2410                   MOV.B       R1,@R4
+    000000E0 25B0                   MOV.B       R11,@R5
+    000000E2              L333:                             
+    000000E2 4610                   DT          R6
+    000000E4 63C4                   MOV.B       @R12+,R3
+    000000E6 8FFC                   BF/S        L333
+    000000E8 2430                   MOV.B       R3,@R4
+    000000EA 7001                   ADD         #1,R0
+    000000EC 3093                   CMP/GE      R9,R0
+    000000EE 8BF0                   BF          L332
+      Monochrome   174            }
+      Monochrome   175    }
+    000000F0 4F26                   LDS.L       @R15+,PR
+    000000F2 69F6                   MOV.L       @R15+,R9
+    000000F4 6AF6                   MOV.L       @R15+,R10
+    000000F6 6BF6                   MOV.L       @R15+,R11
+    000000F8 000B                   RTS
+    000000FA 6CF6                   MOV.L       @R15+,R12
+      Monochrome   176    #endif
+      Monochrome   177    
+      Monochrome   178    #ifdef ML_SET_CONTRAST
+      Monochrome   179    void ML_set_contrast(unsigned char contrast)
+      Monochrome   180    {
+      Monochrome   181            char *LCD_register_selector = (char*)0xB4000000, *LCD_data_register = (char*)0xB4010000;
+      Monochrome   182            *LCD_register_selector = 6;
+      Monochrome   183            *LCD_data_register = contrast;
+      Monochrome   184    }
+      Monochrome   185    #endif
+      Monochrome   186    
+      Monochrome   187    #ifdef ML_GET_CONTRAST
+      Monochrome   188    unsigned char ML_get_contrast()
+      Monochrome   189    {
+      Monochrome   190            char *LCD_register_selector = (char*)0xB4000000, *LCD_data_register = (char*)0xB4010000;
+      Monochrome   191            *LCD_register_selector = 6;
+      Monochrome   192            return *LCD_data_register;
+      Monochrome   193    }
+      Monochrome   194    #endif
+      Monochrome   195    
+      Monochrome   196    #ifdef ML_PIXEL
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 16-Dec-2013 17:27:13  PAGE    7
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+      Monochrome   197    void ML_pixel(int x, int y, ML_Color color)
+      Monochrome   198    {
+      Monochrome   199            char* vram = ML_vram_adress();
+      Monochrome   200            if(x&~127 || y&~63) return;
+      Monochrome   201            switch(color)
+      Monochrome   202            {
+      Monochrome   203                    case ML_BLACK:
+      Monochrome   204                            vram[(y<<4)+(x>>3)] |= 128>>(x&7);
+      Monochrome   205                            break;
+      Monochrome   206                    case ML_WHITE:
+      Monochrome   207                            vram[(y<<4)+(x>>3)] &= ~(128>>(x&7));
+      Monochrome   208                            break;
+      Monochrome   209                    case ML_XOR:
+      Monochrome   210                            vram[(y<<4)+(x>>3)] ^= 128>>(x&7);
+      Monochrome   211                            break;
+      Monochrome   212                    case ML_CHECKER:
+      Monochrome   213                            if(y&1^x&1) vram[(y<<4)+(x>>3)] &= ~(128>>(x&7));
+      Monochrome   214                            else vram[(y<<4)+(x>>3)] |= 128>>(x&7);
+      Monochrome   215                            break;
+      Monochrome   216            }
+      Monochrome   217    }
+      Monochrome   218    #endif
+      Monochrome   219    
+      Monochrome   220    #ifdef ML_POINT
+      Monochrome   221    void ML_point(int x, int y, int width, ML_Color color)
+      Monochrome   222    {
+      Monochrome   223            if(width < 1) return;
+      Monochrome   224            if(width == 1) ML_pixel(x, y, color);
+      Monochrome   225            else
+      Monochrome   226            {
+      Monochrome   227                    int padding, pair;
+      Monochrome   228                    padding = width>>1;
+      Monochrome   229                    pair = !(width&1);
+      Monochrome   230                    ML_rectangle(x-padding+pair, y-padding+pair, x+padding, y+padding, 0, 0, color);
+      Monochrome   231            }
+      Monochrome   232    }
+      Monochrome   233    #endif
+      Monochrome   234    
+      Monochrome   235    #ifdef ML_PIXEL_TEST
+      Monochrome   236    ML_Color ML_pixel_test(int x, int y)
+      Monochrome   237    {
+      Monochrome   238            char *vram, byte;
+      Monochrome   239            if(x&~127 || y&~63) return ML_TRANSPARENT;
+      Monochrome   240            vram = ML_vram_adress();
+      Monochrome   241            byte = 1<<(7-(x&7));
+      Monochrome   242            return (vram[(y<<4)+(x>>3)] & byte ? ML_BLACK : ML_WHITE);
+      Monochrome   243            
+      Monochrome   244    }
+      Monochrome   245    #endif
+      Monochrome   246    
+      Monochrome   247    #ifdef ML_LINE
+      Monochrome   248    void ML_line(int x1, int y1, int x2, int y2, ML_Color color)
+      Monochrome   249    {
+      Monochrome   250            int i, x, y, dx, dy, sx, sy, cumul;
+      Monochrome   251            x = x1;
+      Monochrome   252            y = y1;
+      Monochrome   253            dx = x2 - x1;
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 16-Dec-2013 17:27:13  PAGE    8
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+      Monochrome   254            dy = y2 - y1;
+      Monochrome   255            sx = sgn(dx);
+      Monochrome   256            sy = sgn(dy);
+      Monochrome   257            dx = abs(dx);
+      Monochrome   258            dy = abs(dy);
+      Monochrome   259            ML_pixel(x, y, color);
+      Monochrome   260            if(dx > dy)
+      Monochrome   261            {
+      Monochrome   262                    cumul = dx / 2;
+      Monochrome   263                    for(i=1 ; i<dx ; i++)
+      Monochrome   264                    {
+      Monochrome   265                            x += sx;
+      Monochrome   266                            cumul += dy;
+      Monochrome   267                            if(cumul > dx)
+      Monochrome   268                            {
+      Monochrome   269                                    cumul -= dx;
+      Monochrome   270                                    y += sy;
+      Monochrome   271                            }
+      Monochrome   272                            ML_pixel(x, y, color);
+      Monochrome   273                    }
+      Monochrome   274            }
+      Monochrome   275            else
+      Monochrome   276            {
+      Monochrome   277                    cumul = dy / 2;
+      Monochrome   278                    for(i=1 ; i<dy ; i++)
+      Monochrome   279                    {
+      Monochrome   280                            y += sy;
+      Monochrome   281                            cumul += dx;
+      Monochrome   282                            if(cumul > dy)
+      Monochrome   283                            {
+      Monochrome   284                                    cumul -= dy;
+      Monochrome   285                                    x += sx;
+      Monochrome   286                            }
+      Monochrome   287                            ML_pixel(x, y, color);
+      Monochrome   288                    }
+      Monochrome   289            }
+      Monochrome   290    }
+      Monochrome   291    #endif
+      Monochrome   292    
+      Monochrome   293    #ifdef ML_HORIZONTAL_LINE
+      Monochrome   294    void ML_horizontal_line(int y, int x1, int x2, ML_Color color)
+      Monochrome   295    {
+      Monochrome   296        int i;
+      Monochrome   297        char checker;
+      Monochrome   298        char* vram = ML_vram_adress();
+      Monochrome   299        if(y&~63 || (x1<0 && x2<0) || (x1>127 && x2>127)) return;
+      Monochrome   300        if(x1 > x2)
+      Monochrome   301        {
+      Monochrome   302            i = x1;
+      Monochrome   303            x1 = x2;
+      Monochrome   304            x2 = i;
+      Monochrome   305        }
+      Monochrome   306        if(x1 < 0) x1 = 0;
+      Monochrome   307        if(x2 > 127) x2 = 127;
+      Monochrome   308        switch(color)
+      Monochrome   309        {
+      Monochrome   310            case ML_BLACK:
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 16-Dec-2013 17:27:13  PAGE    9
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+      Monochrome   311                            if(x1>>3 != x2>>3)
+      Monochrome   312                            {
+      Monochrome   313                                    vram[(y<<4)+(x1>>3)] |= 255 >> (x1&7);
+      Monochrome   314                                    vram[(y<<4)+(x2>>3)] |= 255 << 7-(x2&7);
+      Monochrome   315                                    for(i=(x1>>3)+1 ; i<x2>>3 ; i++)
+      Monochrome   316                                            vram[(y<<4) + i] = 255;
+      Monochrome   317                            }
+      Monochrome   318                            else vram[(y<<4)+(x1>>3)] |= (255>>(x1%8 + 7-x2%8))<<(7-(x2&7));
+      Monochrome   319                            break;
+      Monochrome   320                    case ML_WHITE:
+      Monochrome   321                            if(x1>>3 != x2>>3)
+      Monochrome   322                            {
+      Monochrome   323                                    vram[(y<<4)+(x1>>3)] &= 255 << 8-(x1&7);
+      Monochrome   324                                    vram[(y<<4)+(x2>>3)] &= 255 >> 1+(x2&7);
+      Monochrome   325                                    for(i=(x1>>3)+1 ; i<x2>>3 ; i++)
+      Monochrome   326                                            vram[(y<<4) + i] = 0;
+      Monochrome   327                            }
+      Monochrome   328                            else vram[(y<<4)+(x1>>3)] &= (255<<8-(x1&7)) | (255>>1+(x2&7));
+      Monochrome   329                            break;
+      Monochrome   330                    case ML_XOR:
+      Monochrome   331                            if(x1>>3 != x2>>3)
+      Monochrome   332                            {
+      Monochrome   333                                    vram[(y<<4)+(x1>>3)] ^= 255 >> (x1&7);
+      Monochrome   334                                    vram[(y<<4)+(x2>>3)] ^= 255 << 7-(x2&7);
+      Monochrome   335                                    for(i=(x1>>3)+1 ; i<(x2>>3) ; i++)
+      Monochrome   336                                            vram[(y<<4) + i] ^= 255;
+      Monochrome   337                            }
+      Monochrome   338                            else vram[(y<<4)+(x1>>3)] ^= (255>>((x1&7) + 7-(x2&7)))<<(7-(x2&7));
+      Monochrome   339                            break;
+      Monochrome   340                    case ML_CHECKER:
+      Monochrome   341                            checker = (y&1 ? 85 : 170);
+      Monochrome   342                            if(x1>>3 != x2>>3)
+      Monochrome   343                            {
+      Monochrome   344                                    vram[(y<<4)+(x1>>3)] &= 255 << 8-(x1&7);
+      Monochrome   345                                    vram[(y<<4)+(x2>>3)] &= 255 >> 1+(x2&7);
+      Monochrome   346                                    vram[(y<<4)+(x1>>3)] |= checker & 255>>(x1&7);
+      Monochrome   347                                    vram[(y<<4)+(x2>>3)] |= checker & 255<<7-(x2&7);
+      Monochrome   348                                    for(i=(x1>>3)+1 ; i<x2>>3 ; i++)
+      Monochrome   349                                            vram[(y<<4) + i] = checker;
+      Monochrome   350                            }
+      Monochrome   351                            else
+      Monochrome   352                            {
+      Monochrome   353                                    vram[(y<<4)+(x1>>3)] &= (255<<8-(x1&7)) | (255>>1+(x2&7));
+      Monochrome   354                                    vram[(y<<4)+(x1>>3)] |= checker & (255>>(x1%8 + 7-x2%8))<<(7-(x2&7));
+      Monochrome   355                            }
+      Monochrome   356                            break;
+      Monochrome   357        }
+      Monochrome   358    }
+      Monochrome   359    
+      Monochrome   360    #endif
+      Monochrome   361    
+      Monochrome   362    #ifdef ML_VERTICAL_LINE
+      Monochrome   363    void ML_vertical_line(int x, int y1, int y2, ML_Color color)
+      Monochrome   364    {
+      Monochrome   365        int i, j;
+      Monochrome   366        char checker, byte, *vram = ML_vram_adress();
+      Monochrome   367            if(x&~127 || (y1<0 && y2<0) || (y1>63 && y2>63)) return;
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 16-Dec-2013 17:27:13  PAGE   10
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+      Monochrome   368            if(y1 > y2)
+      Monochrome   369            {
+      Monochrome   370                    int tmp = y1;
+      Monochrome   371                    y1 = y2;
+      Monochrome   372                    y2 = tmp;
+      Monochrome   373            }
+      Monochrome   374            if(y1 < 0) y1 = 0;
+      Monochrome   375            if(y2 > 63) y2 = 63;
+      Monochrome   376    
+      Monochrome   377            i = (y1<<4)+(x>>3);
+      Monochrome   378            j = (y2<<4)+(x>>3);
+      Monochrome   379            switch(color)
+      Monochrome   380            {
+      Monochrome   381                    case ML_BLACK:
+      Monochrome   382                            byte = 128>>(x&7);
+      Monochrome   383                            for( ; i<=j ; i+=16)
+      Monochrome   384                                    vram[i] |= byte;
+      Monochrome   385                            break;
+      Monochrome   386                    case ML_WHITE:
+      Monochrome   387                            byte = ~(128>>(x&7));
+      Monochrome   388                            for( ; i<=j ; i+=16)
+      Monochrome   389                                    vram[i] &= byte;
+      Monochrome   390                            break;
+      Monochrome   391                    case ML_XOR:
+      Monochrome   392                            byte = 128>>(x&7);
+      Monochrome   393                            for( ; i<=j ; i+=16)
+      Monochrome   394                                    vram[i] ^= byte;
+      Monochrome   395                            break;
+      Monochrome   396                    case ML_CHECKER:
+      Monochrome   397                            byte = 128>>(x&7);
+      Monochrome   398                            checker = y1&1^x&1;
+      Monochrome   399                            for( ; i<=j ; i+=16)
+      Monochrome   400                            {
+      Monochrome   401                                    if(checker) vram[i] &= ~byte;
+      Monochrome   402                                    else vram[i] |= byte;
+      Monochrome   403                                    checker = !checker;
+      Monochrome   404                            }
+      Monochrome   405                            break;
+      Monochrome   406            }
+      Monochrome   407    }
+      Monochrome   408    #endif
+      Monochrome   409    
+      Monochrome   410    #ifdef ML_RECTANGLE
+      Monochrome   411    void ML_rectangle(int x1, int y1, int x2, int y2, int border_width, ML_Color border_color, ML_Color fill_c
+                         +olor)
+      Monochrome   412    {
+      Monochrome   413            int i;
+      Monochrome   414            if(x1 > x2)
+      Monochrome   415            {
+      Monochrome   416                    i = x1;
+      Monochrome   417                    x1 = x2;
+      Monochrome   418                    x2 = i;
+      Monochrome   419            }
+      Monochrome   420            if(y1 > y2)
+      Monochrome   421            {
+      Monochrome   422                    i = y1;
+      Monochrome   423                    y1 = y2;
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 16-Dec-2013 17:27:13  PAGE   11
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+      Monochrome   424                    y2 = i;
+      Monochrome   425            }
+      Monochrome   426            if(border_width > (x2-x1)/2+1) border_width = (x2-x1)/2+1;
+      Monochrome   427            if(border_width > (y2-y1)/2+1) border_width = (y2-y1)/2+1;
+      Monochrome   428            if(border_color != ML_TRANSPARENT && border_width > 0)
+      Monochrome   429            {
+      Monochrome   430                    for(i=0 ; i<border_width ; i++)
+      Monochrome   431                    {
+      Monochrome   432                            ML_horizontal_line(y1+i, x1, x2, border_color);
+      Monochrome   433                            ML_horizontal_line(y2-i, x1, x2, border_color);
+      Monochrome   434                    }
+      Monochrome   435                    for(i=y1+border_width ; i<=y2-border_width ; i++)
+      Monochrome   436                    {
+      Monochrome   437                            ML_horizontal_line(i, x1, x1+border_width-1, border_color);
+      Monochrome   438                            ML_horizontal_line(i, x2-border_width+1, x2, border_color);
+      Monochrome   439                    }
+      Monochrome   440            }
+      Monochrome   441            if(fill_color != ML_TRANSPARENT)
+      Monochrome   442            {
+      Monochrome   443                    for(i=y1+border_width ; i<=y2-border_width ; i++)
+      Monochrome   444                            ML_horizontal_line(i, x1+border_width, x2-border_width, fill_color);
+      Monochrome   445            }
+      Monochrome   446    }
+      Monochrome   447    #endif
+      Monochrome   448    
+      Monochrome   449    #ifdef ML_POLYGON
+      Monochrome   450    void ML_polygon(const int *x, const int *y, int nb_vertices, ML_Color color)
+      Monochrome   451    {
+      Monochrome   452            int i;
+      Monochrome   453            if(nb_vertices < 1) return;
+      Monochrome   454            for(i=0 ; i<nb_vertices-1 ; i++)
+      Monochrome   455                    ML_line(x[i], y[i], x[i+1], y[i+1], color);
+      Monochrome   456            ML_line(x[i], y[i], x[0], y[0], color);
+      Monochrome   457    }
+      Monochrome   458    #endif
+      Monochrome   459    
+      Monochrome   460    #ifdef ML_FILLED_POLYGON
+      Monochrome   461    static int ML_filled_polygon_quicksord_partition(int *t, int p, int r)
+      Monochrome   462    {
+      Monochrome   463            int i, j, x, tmp;
+      Monochrome   464            j = p - 1;
+      Monochrome   465            x = t[r];
+      Monochrome   466            for(i=p ; i<r ; i++)
+      Monochrome   467            {
+      Monochrome   468                    if(x > t[i])
+      Monochrome   469                    {
+      Monochrome   470                            j++;
+      Monochrome   471                            tmp = t[j];
+      Monochrome   472                            t[j] = t[i];
+      Monochrome   473                            t[i] = tmp;
+      Monochrome   474                    }
+      Monochrome   475            }
+      Monochrome   476            t[r] = t[j+1];
+      Monochrome   477            t[j+1] = x;
+      Monochrome   478            return j + 1;
+      Monochrome   479    }
+      Monochrome   480    
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 16-Dec-2013 17:27:13  PAGE   12
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+      Monochrome   481    static void ML_filled_polygon_quicksord(int* t, int p, int r)
+      Monochrome   482    {
+      Monochrome   483            int q;
+      Monochrome   484            if(p < r)
+      Monochrome   485            {
+      Monochrome   486                    q = ML_filled_polygon_quicksord_partition(t, p, r);
+      Monochrome   487                    ML_filled_polygon_quicksord(t, p, q-1);
+      Monochrome   488                    ML_filled_polygon_quicksord(t, q+1, r);
+      Monochrome   489            }
+      Monochrome   490    }
+      Monochrome   491    
+      Monochrome   492    
+      Monochrome   493    void ML_filled_polygon(const int *x, const int *y, int nb_vertices, ML_Color color)
+      Monochrome   494    {
+      Monochrome   495            int i, j, dx, dy, ymin, ymax;
+      Monochrome   496            int *cut_in_line, nb_cut;
+      Monochrome   497            if(nb_vertices < 3) return;
+      Monochrome   498            cut_in_line = malloc(nb_vertices*sizeof(int));
+      Monochrome   499            if(!cut_in_line) return;
+      Monochrome   500            ymin = ymax = y[0];
+      Monochrome   501            for(i=1 ; i<nb_vertices ; i++)
+      Monochrome   502            {
+      Monochrome   503                    if(y[i] < ymin) ymin = y[i];
+      Monochrome   504                    if(y[i] > ymax) ymax = y[i];
+      Monochrome   505            }
+      Monochrome   506            for(i=ymin ; i<=ymax ; i++)
+      Monochrome   507            {
+      Monochrome   508                    nb_cut = 0;
+      Monochrome   509                    for(j=0 ; j<nb_vertices ; j++)
+      Monochrome   510                    {
+      Monochrome   511                            if((y[j]<=i && y[(j+1)%nb_vertices]>=i) || (y[j]>=i && y[(j+1)%nb_vertices]<=i))
+      Monochrome   512                            {
+      Monochrome   513                                    dy = abs(y[j]-y[(j+1)%nb_vertices]);
+      Monochrome   514                                    if(dy)
+      Monochrome   515                                    {
+      Monochrome   516                                            dx = x[(j+1)%nb_vertices]-x[j];
+      Monochrome   517                                            cut_in_line[nb_cut] = x[j] + rnd(abs(i-y[j]+sgn(i-y[j])/2)*dx/dy);
+      Monochrome   518                                            nb_cut++;
+      Monochrome   519                                    }
+      Monochrome   520                            }
+      Monochrome   521                    }
+      Monochrome   522                    ML_filled_polygon_quicksord(cut_in_line, 0, nb_cut-1);
+      Monochrome   523                    j = 0;
+      Monochrome   524                    while(j<nb_cut-2 && cut_in_line[j]==cut_in_line[j+1]) j++;
+      Monochrome   525                    while(j < nb_cut)
+      Monochrome   526                    {
+      Monochrome   527                            if(j == nb_cut-1) ML_horizontal_line(i, cut_in_line[j-1]+1, cut_in_line[j], color)
+                         +;
+      Monochrome   528                            else
+      Monochrome   529                            {
+      Monochrome   530                                    dx = 1;
+      Monochrome   531                                    while(j+dx<nb_cut-1 && cut_in_line[j+dx]==cut_in_line[j+dx+1]) dx++;
+      Monochrome   532                                    ML_horizontal_line(i, cut_in_line[j], cut_in_line[j+dx], color);
+      Monochrome   533                                    j += dx;
+      Monochrome   534                            }
+      Monochrome   535                            j++;
+      Monochrome   536                    }
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 16-Dec-2013 17:27:13  PAGE   13
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+      Monochrome   537            }
+      Monochrome   538            free(cut_in_line);
+      Monochrome   539    }
+      Monochrome   540    #endif
+      Monochrome   541    
+      Monochrome   542    #ifdef ML_CIRCLE
+      Monochrome   543    void ML_circle(int x, int y, int radius, ML_Color color)
+      Monochrome   544    {
+      Monochrome   545            int plot_x, plot_y, d;
+      Monochrome   546    
+      Monochrome   547            if(radius < 0) return;
+      Monochrome   548            plot_x = 0;
+      Monochrome   549            plot_y = radius;
+      Monochrome   550            d = 1 - radius;
+      Monochrome   551    
+      Monochrome   552            ML_pixel(x, y+plot_y, color);
+      Monochrome   553            if(radius)
+      Monochrome   554            {
+      Monochrome   555                    ML_pixel(x, y-plot_y, color);
+      Monochrome   556                    ML_pixel(x+plot_y, y, color);
+      Monochrome   557                    ML_pixel(x-plot_y, y, color);
+      Monochrome   558            }
+      Monochrome   559            while(plot_y > plot_x)
+      Monochrome   560            {
+      Monochrome   561                    if(d < 0)
+      Monochrome   562                            d += 2*plot_x+3;
+      Monochrome   563                    else
+      Monochrome   564                    {
+      Monochrome   565                            d += 2*(plot_x-plot_y)+5;
+      Monochrome   566                            plot_y--;
+      Monochrome   567                    }
+      Monochrome   568                    plot_x++;
+      Monochrome   569                    if(plot_y >= plot_x)
+      Monochrome   570                    {
+      Monochrome   571                            ML_pixel(x+plot_x, y+plot_y, color);
+      Monochrome   572                            ML_pixel(x-plot_x, y+plot_y, color);
+      Monochrome   573                            ML_pixel(x+plot_x, y-plot_y, color);
+      Monochrome   574                            ML_pixel(x-plot_x, y-plot_y, color);
+      Monochrome   575                    }
+      Monochrome   576                    if(plot_y > plot_x)
+      Monochrome   577                    {
+      Monochrome   578                            ML_pixel(x+plot_y, y+plot_x, color);
+      Monochrome   579                            ML_pixel(x-plot_y, y+plot_x, color);
+      Monochrome   580                            ML_pixel(x+plot_y, y-plot_x, color);
+      Monochrome   581                            ML_pixel(x-plot_y, y-plot_x, color);
+      Monochrome   582                    }
+      Monochrome   583            }
+      Monochrome   584    }
+      Monochrome   585    #endif
+      Monochrome   586    
+      Monochrome   587    #ifdef ML_FILLED_CIRCLE
+      Monochrome   588    void ML_filled_circle(int x, int y, int radius, ML_Color color)
+      Monochrome   589    {
+      Monochrome   590            int plot_x, plot_y, d;
+      Monochrome   591    
+      Monochrome   592            if(radius < 0) return;
+      Monochrome   593            plot_x = 0;
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 16-Dec-2013 17:27:13  PAGE   14
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+      Monochrome   594            plot_y = radius;
+      Monochrome   595            d = 1 - radius;
+      Monochrome   596    
+      Monochrome   597            ML_horizontal_line(y, x-plot_y, x+plot_y, color);
+      Monochrome   598            while(plot_y > plot_x)
+      Monochrome   599            {
+      Monochrome   600                    if(d < 0)
+      Monochrome   601                            d += 2*plot_x+3;
+      Monochrome   602                    else {
+      Monochrome   603                            d += 2*(plot_x-plot_y)+5;
+      Monochrome   604                            plot_y--;
+      Monochrome   605                            ML_horizontal_line(y+plot_y+1, x-plot_x, x+plot_x, color);
+      Monochrome   606                            ML_horizontal_line(y-plot_y-1, x-plot_x, x+plot_x, color);
+      Monochrome   607                    }
+      Monochrome   608                    plot_x++;
+      Monochrome   609                    if(plot_y >= plot_x)
+      Monochrome   610                    {
+      Monochrome   611                            ML_horizontal_line(y+plot_x, x-plot_y, x+plot_y, color);
+      Monochrome   612                            ML_horizontal_line(y-plot_x, x-plot_y, x+plot_y, color);
+      Monochrome   613                    }
+      Monochrome   614            }
+      Monochrome   615    }
+      Monochrome   616    #endif
+      Monochrome   617    
+      Monochrome   618    #ifdef ML_ELLIPSE
+      Monochrome   619    void ML_ellipse(int x, int y, int radius1, int radius2, ML_Color color)
+      Monochrome   620    {
+      Monochrome   621            int plot_x, plot_y;
+      Monochrome   622            float d1, d2;
+      Monochrome   623            if(radius1 < 1 || radius2 < 1) return;
+      Monochrome   624            plot_x = 0;
+      Monochrome   625            plot_y = radius2;
+      Monochrome   626            d1 = radius2*radius2 - radius1*radius1*radius2 + radius1*radius1/4;
+      Monochrome   627            ML_pixel(x, y+plot_y, color);
+      Monochrome   628            ML_pixel(x, y-plot_y, color);
+      Monochrome   629            while(radius1*radius1*(plot_y-.5) > radius2*radius2*(plot_x+1))
+      Monochrome   630            {
+      Monochrome   631                    if(d1 < 0)
+      Monochrome   632                    {
+      Monochrome   633                            d1 += radius2*radius2*(2*plot_x+3);
+      Monochrome   634                            plot_x++;
+      Monochrome   635                    } else {
+      Monochrome   636                            d1 += radius2*radius2*(2*plot_x+3) + radius1*radius1*(-2*plot_y+2);
+      Monochrome   637                            plot_x++;
+      Monochrome   638                            plot_y--;
+      Monochrome   639                    }
+      Monochrome   640                    ML_pixel(x+plot_x, y+plot_y, color);
+      Monochrome   641                    ML_pixel(x-plot_x, y+plot_y, color);
+      Monochrome   642                    ML_pixel(x+plot_x, y-plot_y, color);
+      Monochrome   643                    ML_pixel(x-plot_x, y-plot_y, color);
+      Monochrome   644            }
+      Monochrome   645            d2 = radius2*radius2*(plot_x+.5)*(plot_x+.5) + radius1*radius1*(plot_y-1)*(plot_y-1) - radius1*rad
+                         +ius1*radius2*radius2;
+      Monochrome   646            while(plot_y > 0)
+      Monochrome   647            {
+      Monochrome   648                    if(d2 < 0)
+      Monochrome   649                    {
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 16-Dec-2013 17:27:13  PAGE   15
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+      Monochrome   650                            d2 += radius2*radius2*(2*plot_x+2) + radius1*radius1*(-2*plot_y+3);
+      Monochrome   651                            plot_y--;
+      Monochrome   652                            plot_x++;
+      Monochrome   653                    } else {
+      Monochrome   654                            d2 += radius1*radius1*(-2*plot_y+3);
+      Monochrome   655                            plot_y--;
+      Monochrome   656                    }
+      Monochrome   657                    ML_pixel(x+plot_x, y+plot_y, color);
+      Monochrome   658                    ML_pixel(x-plot_x, y+plot_y, color);
+      Monochrome   659                    if(plot_y > 0)
+      Monochrome   660                    {
+      Monochrome   661                            ML_pixel(x+plot_x, y-plot_y, color);
+      Monochrome   662                            ML_pixel(x-plot_x, y-plot_y, color);
+      Monochrome   663                    }
+      Monochrome   664            }
+      Monochrome   665    }
+      Monochrome   666    #endif
+      Monochrome   667    
+      Monochrome   668    #ifdef ML_ELLIPSE_IN_RECT
+      Monochrome   669    void ML_ellipse_in_rect(int x1, int y1, int x2, int y2, ML_Color color)
+      Monochrome   670    {
+      Monochrome   671            int radius1, radius2;
+      Monochrome   672            if(x1 > x2)
+      Monochrome   673            {
+      Monochrome   674                    int tmp = x1;
+      Monochrome   675                    x1 = x2;
+      Monochrome   676                    x2 = tmp;
+      Monochrome   677            }
+      Monochrome   678            if(y1 > y2)
+      Monochrome   679            {
+      Monochrome   680                    int tmp = y1;
+      Monochrome   681                    y1 = y2;
+      Monochrome   682                    y2 = tmp;
+      Monochrome   683            }
+      Monochrome   684            radius1 = (x2-x1)/2;
+      Monochrome   685            radius2 = (y2-y1)/2;
+      Monochrome   686            ML_ellipse(x1+radius1, y1+radius2, radius1, radius2, color);
+      Monochrome   687    }
+      Monochrome   688    #endif
+      Monochrome   689    
+      Monochrome   690    #ifdef ML_FILLED_ELLIPSE
+      Monochrome   691    void ML_filled_ellipse(int x, int y, int radius1, int radius2, ML_Color color)
+      Monochrome   692    {
+      Monochrome   693            int plot_x, plot_y;
+      Monochrome   694            float d1, d2;
+      Monochrome   695            if(radius1 < 1 || radius2 < 1) return;
+      Monochrome   696            plot_x = 0;
+      Monochrome   697            plot_y = radius2;
+      Monochrome   698            d1 = radius2*radius2 - radius1*radius1*radius2 + radius1*radius1/4;
+      Monochrome   699            while(radius1*radius1*(plot_y-.5) > radius2*radius2*(plot_x+1))
+      Monochrome   700            {
+      Monochrome   701                    if(d1 < 0)
+      Monochrome   702                    {
+      Monochrome   703                            d1 += radius2*radius2*(2*plot_x+3);
+      Monochrome   704                            plot_x++;
+      Monochrome   705                    } else {
+      Monochrome   706                            d1 += radius2*radius2*(2*plot_x+3) + radius1*radius1*(-2*plot_y+2);
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 16-Dec-2013 17:27:13  PAGE   16
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+      Monochrome   707                            ML_horizontal_line(y+plot_y, x-plot_x, x+plot_x, color);
+      Monochrome   708                            ML_horizontal_line(y-plot_y, x-plot_x, x+plot_x, color);
+      Monochrome   709                            plot_x++;
+      Monochrome   710                            plot_y--;
+      Monochrome   711                    }
+      Monochrome   712            }
+      Monochrome   713            ML_horizontal_line(y+plot_y, x-plot_x, x+plot_x, color);
+      Monochrome   714            ML_horizontal_line(y-plot_y, x-plot_x, x+plot_x, color);
+      Monochrome   715            d2 = radius2*radius2*(plot_x+.5)*(plot_x+.5) + radius1*radius1*(plot_y-1)*(plot_y-1) - radius1*rad
+                         +ius1*radius2*radius2;
+      Monochrome   716            while(plot_y > 0)
+      Monochrome   717            {
+      Monochrome   718                    if(d2 < 0)
+      Monochrome   719                    {
+      Monochrome   720                            d2 += radius2*radius2*(2*plot_x+2) + radius1*radius1*(-2*plot_y+3);
+      Monochrome   721                            plot_y--;
+      Monochrome   722                            plot_x++;
+      Monochrome   723                    } else {
+      Monochrome   724                            d2 += radius1*radius1*(-2*plot_y+3);
+      Monochrome   725                            plot_y--;
+      Monochrome   726                    }
+      Monochrome   727                    ML_horizontal_line(y+plot_y, x-plot_x, x+plot_x, color);
+      Monochrome   728                    if(plot_y > 0)
+      Monochrome   729                            ML_horizontal_line(y-plot_y, x-plot_x, x+plot_x, color);
+      Monochrome   730            }
+      Monochrome   731    }
+      Monochrome   732    #endif
+      Monochrome   733    
+      Monochrome   734    #ifdef ML_FILLED_ELLIPSE_IN_RECT
+      Monochrome   735    void ML_filled_ellipse_in_rect(int x1, int y1, int x2, int y2, ML_Color color)
+      Monochrome   736    {
+      Monochrome   737            int radius1, radius2;
+      Monochrome   738            if(x1 > x2)
+      Monochrome   739            {
+      Monochrome   740                    int tmp = x1;
+      Monochrome   741                    x1 = x2;
+      Monochrome   742                    x2 = tmp;
+      Monochrome   743            }
+      Monochrome   744            if(y1 > y2)
+      Monochrome   745            {
+      Monochrome   746                    int tmp = y1;
+      Monochrome   747                    y1 = y2;
+      Monochrome   748                    y2 = tmp;
+      Monochrome   749            }
+      Monochrome   750            radius1 = (x2-x1)/2;
+      Monochrome   751            radius2 = (y2-y1)/2;
+      Monochrome   752            ML_filled_ellipse(x1+radius1, y1+radius2, radius1, radius2, color);
+      Monochrome   753    }
+      Monochrome   754    #endif
+      Monochrome   755    
+      Monochrome   756    #ifdef ML_HORIZONTAL_SCROLL
+      Monochrome   757    void ML_horizontal_scroll(int scroll)
+      Monochrome   758    {
+      Monochrome   759            int i, j;
+      Monochrome   760            char line[16], shift, *vram;
+      Monochrome   761            unsigned char next;
+      Monochrome   762            unsigned short word;
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 16-Dec-2013 17:27:13  PAGE   17
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+      Monochrome   763            vram = ML_vram_adress();
+      Monochrome   764            scroll %= 128;
+      Monochrome   765            shift = 8-(scroll&7);
+      Monochrome   766            for(i=0 ; i<64 ; i++)
+      Monochrome   767            {
+      Monochrome   768                    for(j=0 ; j<16 ; j++) line[j] = vram[(i<<4)+((j-(scroll>>3)+15)&15)];
+      Monochrome   769                    next = line[15];
+      Monochrome   770                    vram[(i<<4)+15] = 0;
+      Monochrome   771                    for(j=15 ; j>0 ; j--)
+      Monochrome   772                    {
+      Monochrome   773                            word = next << shift;
+      Monochrome   774                            next = line[j-1];
+      Monochrome   775                            vram[(i<<4)+j] |= *((char*)&word+1);
+      Monochrome   776                            vram[(i<<4)+j-1] = *((char*)&word);
+      Monochrome   777                    }
+      Monochrome   778                    word = next << shift;
+      Monochrome   779                    vram[(i<<4)] |= *((char*)&word+1);
+      Monochrome   780                    vram[(i<<4)+15] |= *((char*)&word);
+      Monochrome   781            }
+      Monochrome   782    }
+      Monochrome   783    #endif
+      Monochrome   784    
+      Monochrome   785    #ifdef ML_VERTICAL_SCROLL
+      Monochrome   786    void ML_vertical_scroll(int scroll)
+    000000FC              _ML_vertical_scroll:             ; function: ML_vertical_scroll
+                                                           ; frame size=104
+    000000FC 2FE6                   MOV.L       R14,@-R15
+    000000FE 2FD6                   MOV.L       R13,@-R15
+    00000100 2FC6                   MOV.L       R12,@-R15
+    00000102 2FB6                   MOV.L       R11,@-R15
+    00000104 2FA6                   MOV.L       R10,@-R15
+    00000106 2F86                   MOV.L       R8,@-R15
+    00000108 4F22                   STS.L       PR,@-R15
+    0000010A 7FB4                   ADD         #-76,R15
+      Monochrome   787    {
+      Monochrome   788            int i, j;
+      Monochrome   789            char column[64], *vram = ML_vram_adress();
+    0000010C BF78                   BSR         _ML_vram_adress
+    0000010E 2F42                   MOV.L       R4,@R15
+    00000110 1F01                   MOV.L       R0,@(4,R15)
+      Monochrome   790            scroll %= 64;
+    00000112 60F2                   MOV.L       @R15,R0
+    00000114 4011                   CMP/PZ      R0
+    00000116 8B09                   BF          L334
+    00000118 A00D                   BRA         L335
+    0000011A C93F                   AND         #63,R0
+    0000011C              L339:                             
+    0000011C 0135                   .DATA.W     H'0135
+    0000011E 03FC                   .DATA.W     H'03FC
+    00000120 <00000000>             .DATA.L     __$SysCall
+    00000124 B4000000               .DATA.L     H'B4000000
+    00000128 B4010000               .DATA.L     H'B4010000
+    0000012C              L334:                             
+    0000012C 6007                   NOT         R0,R0
+    0000012E 7001                   ADD         #1,R0
+    00000130 C93F                   AND         #63,R0
+    00000132 6007                   NOT         R0,R0
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 16-Dec-2013 17:27:13  PAGE   18
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000134 7001                   ADD         #1,R0
+    00000136              L335:                             
+      Monochrome   791            for(i=0 ; i<16 ; i++)
+    00000136 EC00                   MOV         #0,R12
+    00000138 2F02                   MOV.L       R0,@R15
+    0000013A 6EF3                   MOV         R15,R14
+    0000013C 67C3                   MOV         R12,R7
+    0000013E 7E0C                   ADD         #12,R14
+    00000140 68E3                   MOV         R14,R8
+    00000142 7840                   ADD         #64,R8
+    00000144 EA10                   MOV         #16,R10
+    00000146 EB3F                   MOV         #63,R11
+    00000148 ED40                   MOV         #64,R13
+    0000014A 63E3                   MOV         R14,R3
+    0000014C 1F32                   MOV.L       R3,@(8,R15)
+    0000014E              L336:                             
+    0000014E 51F1                   MOV.L       @(4,R15),R1
+    00000150 54F2                   MOV.L       @(8,R15),R4
+    00000152 317C                   ADD         R7,R1
+    00000154 6513                   MOV         R1,R5
+      Monochrome   792            {
+      Monochrome   793                    for(j=0 ; j<64 ; j++) column[j] = vram[(j<<4)+i];
+    00000156              L337:                             
+    00000156 6250                   MOV.B       @R5,R2
+    00000158 2420                   MOV.B       R2,@R4
+    0000015A 7401                   ADD         #1,R4
+    0000015C 3482                   CMP/HS      R8,R4
+    0000015E 8FFA                   BF/S        L337
+    00000160 7510                   ADD         #16,R5
+      Monochrome   794                    for(j=0 ; j<64 ; j++) vram[(j<<4)+i] = column[(j-scroll+64)&63];
+    00000162 66C3                   MOV         R12,R6
+    00000164 63F2                   MOV.L       @R15,R3
+    00000166 64C3                   MOV         R12,R4
+    00000168 3438                   SUB         R3,R4
+    0000016A 7440                   ADD         #64,R4
+    0000016C 6513                   MOV         R1,R5
+    0000016E              L338:                             
+    0000016E 6043                   MOV         R4,R0
+    00000170 20B9                   AND         R11,R0
+    00000172 7601                   ADD         #1,R6
+    00000174 03EC                   MOV.B       @(R0,R14),R3
+    00000176 7401                   ADD         #1,R4
+    00000178 2530                   MOV.B       R3,@R5
+    0000017A 36D3                   CMP/GE      R13,R6
+    0000017C 8FF7                   BF/S        L338
+    0000017E 7510                   ADD         #16,R5
+    00000180 7701                   ADD         #1,R7
+    00000182 37A3                   CMP/GE      R10,R7
+    00000184 8BE3                   BF          L336
+      Monochrome   795            }
+      Monochrome   796    }
+    00000186 7F4C                   ADD         #76,R15
+    00000188 4F26                   LDS.L       @R15+,PR
+    0000018A 68F6                   MOV.L       @R15+,R8
+    0000018C 6AF6                   MOV.L       @R15+,R10
+    0000018E 6BF6                   MOV.L       @R15+,R11
+    00000190 6CF6                   MOV.L       @R15+,R12
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 16-Dec-2013 17:27:13  PAGE   19
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+    00000192 6DF6                   MOV.L       @R15+,R13
+    00000194 000B                   RTS
+    00000196 6EF6                   MOV.L       @R15+,R14
+      Monochrome   797    #endif
+      Monochrome   798    
+      Monochrome   799    #ifdef ML_BMP_OR
+      Monochrome   800    void ML_bmp_or(const unsigned char *bmp, int x, int y, int width, int height)
+      Monochrome   801    {
+      Monochrome   802            unsigned short line;
+      Monochrome   803            char shift, *screen, *p=(char*)&line;
+      Monochrome   804            int i, j, begin=0, end=height, real_width=(width-1>>3<<3)+8;
+      Monochrome   805            if(!bmp || x<0 || x>128-width || y<1-height || y>63 || width<1 || height<1) return;
+      Monochrome   806            if(y < 0) begin = -y;
+      Monochrome   807            if(y+height > 64) end = 64-y;
+      Monochrome   808            shift = 8-(x&7);
+      Monochrome   809            screen = ML_vram_adress()+(y+begin<<4)+(x>>3);
+      Monochrome   810            for(i=begin ; i<end ; i++)
+      Monochrome   811            {
+      Monochrome   812                    for(j=0 ; j<width-1>>3 ; j++)
+      Monochrome   813                    {
+      Monochrome   814                            line = bmp[i*(real_width>>3)+j]<<shift;
+      Monochrome   815                            screen[j] |= *p;
+      Monochrome   816                            if(shift!=8) screen[j+1] |= *(p+1);
+      Monochrome   817                    }
+      Monochrome   818                    line = (bmp[i*(real_width>>3)+j] & -1<<(real_width-width))<<shift;
+      Monochrome   819                    screen[j] |= *p;
+      Monochrome   820                    if(shift!=8 && x+real_width<129) screen[j+1] |= *(p+1);
+      Monochrome   821                    screen += 16;
+      Monochrome   822            }
+      Monochrome   823    }
+      Monochrome   824    #endif
+      Monochrome   825    
+      Monochrome   826    #ifdef ML_BMP_AND
+      Monochrome   827    void ML_bmp_and(const unsigned char *bmp, int x, int y, int width, int height)
+      Monochrome   828    {
+      Monochrome   829            unsigned short line;
+      Monochrome   830            char shift, *screen, *p=(char*)&line;
+      Monochrome   831            int i, j, begin=0, end=height, real_width=(width-1>>3<<3)+8;
+      Monochrome   832            if(!bmp || x<0 || x>128-width || y<1-height || y>63 || width<1 || height<1) return;
+      Monochrome   833            if(y < 0) begin = -y;
+      Monochrome   834            if(y+height > 64) end = 64-y;
+      Monochrome   835            shift = 8-(x&7);
+      Monochrome   836            screen = ML_vram_adress()+(y+begin<<4)+(x>>3);
+      Monochrome   837            for(i=begin ; i<end ; i++)
+      Monochrome   838            {
+      Monochrome   839                    for(j=0 ; j<width-1>>3 ; j++)
+      Monochrome   840                    {
+      Monochrome   841                            line = ~((unsigned char)~bmp[i*(real_width>>3)+j]<<shift);
+      Monochrome   842                            screen[j] &= *p;
+      Monochrome   843                            if(shift!=8) screen[j+1] &= *(p+1);
+      Monochrome   844                    }
+      Monochrome   845                    line = ~((unsigned char)~(bmp[i*(real_width>>3)+j] | (unsigned char)-1>>8-(width&7))<<shif
+                         +t);
+      Monochrome   846                    screen[j] &= *p;
+      Monochrome   847                    if(shift!=8 && x+real_width<129) screen[j+1] &= *(p+1);
+      Monochrome   848                    screen += 16;
+      Monochrome   849            }
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 16-Dec-2013 17:27:13  PAGE   20
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+      Monochrome   850    }
+      Monochrome   851    #endif
+      Monochrome   852    
+      Monochrome   853    #ifdef ML_BMP_XOR
+      Monochrome   854    void ML_bmp_xor(const unsigned char *bmp, int x, int y, int width, int height)
+      Monochrome   855    {
+      Monochrome   856            unsigned short line;
+      Monochrome   857            char shift, *screen, *p=(char*)&line;
+      Monochrome   858            int i, j, begin=0, end=height, real_width=(width-1>>3<<3)+8;
+      Monochrome   859            if(!bmp || x<0 || x>128-width || y<1-height || y>63 || width<1 || height<1) return;
+      Monochrome   860            if(y < 0) begin = -y;
+      Monochrome   861            if(y+height > 64) end = 64-y;
+      Monochrome   862            shift = 8-(x&7);
+      Monochrome   863            screen = ML_vram_adress()+(y+begin<<4)+(x>>3);
+      Monochrome   864            for(i=begin ; i<end ; i++)
+      Monochrome   865            {
+      Monochrome   866                    for(j=0 ; j<width-1>>3 ; j++)
+      Monochrome   867                    {
+      Monochrome   868                            line = bmp[i*(real_width>>3)+j]<<shift;
+      Monochrome   869                            screen[j] ^= *p;
+      Monochrome   870                            if(shift!=8) screen[j+1] ^= *(p+1);
+      Monochrome   871                    }
+      Monochrome   872                    line = (bmp[i*(real_width>>3)+j] & -1<<(real_width-width))<<shift;
+      Monochrome   873                    screen[j] ^= *p;
+      Monochrome   874                    if(shift!=8 && x+real_width<129) screen[j+1] ^= *(p+1);
+      Monochrome   875                    screen += 16;
+      Monochrome   876            }
+      Monochrome   877    }
+      Monochrome   878    #endif
+      Monochrome   879    
+      Monochrome   880    #ifdef ML_BMP_OR_CL
+      Monochrome   881    void ML_bmp_or_cl(const unsigned char *bmp, int x, int y, int width, int height)
+      Monochrome   882    {
+      Monochrome   883            unsigned short line;
+      Monochrome   884            char shift, *screen, *p;
+      Monochrome   885            int i, j, real_width, begin_x, end_x, begin_y, end_y;
+      Monochrome   886            char bool1=1, bool2=1, bool3;
+      Monochrome   887            if(!bmp || x<1-width || x>127 || y<1-height || y>63 || height<1 || width<1) return;
+      Monochrome   888            p = (char*)&line;
+      Monochrome   889            real_width = (width-1>>3<<3)+8;
+      Monochrome   890            if(y < 0) begin_y = -y;
+      Monochrome   891            else begin_y = 0;
+      Monochrome   892            if(y+height > 64) end_y = 64-y;
+      Monochrome   893            else end_y = height;
+      Monochrome   894            shift = 8-(x&7);
+      Monochrome   895            if(x<0)
+      Monochrome   896            {
+      Monochrome   897                    begin_x = -x>>3;
+      Monochrome   898                    if(shift != 8) bool1 = 0;
+      Monochrome   899            } else begin_x = 0;
+      Monochrome   900            if(x+real_width > 128) end_x = 15-(x>>3), bool2 = 0;
+      Monochrome   901            else end_x = real_width-1>>3;
+      Monochrome   902            bool3 = (end_x == real_width-1>>3);
+      Monochrome   903            screen = ML_vram_adress()+(y+begin_y<<4)+(x>>3);
+      Monochrome   904    
+      Monochrome   905            for(i=begin_y ; i<end_y ; i++)
+      Monochrome   906            {
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 16-Dec-2013 17:27:13  PAGE   21
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+      Monochrome   907                    if(begin_x < end_x)
+      Monochrome   908                    {
+      Monochrome   909                            line = bmp[i*(real_width>>3)+begin_x] << shift;
+      Monochrome   910                            if(bool1) screen[begin_x] |= *p;
+      Monochrome   911                            if(shift!=8) screen[begin_x+1] |= *(p+1);
+      Monochrome   912                            for(j=begin_x+1 ; j<end_x ; j++)
+      Monochrome   913                            {
+      Monochrome   914                                    line = bmp[i*(real_width>>3)+j] << shift;
+      Monochrome   915                                    screen[j] |= *p;
+      Monochrome   916                                    if(shift!=8) screen[j+1] |= *(p+1);
+      Monochrome   917                            }
+      Monochrome   918                    }
+      Monochrome   919                    line = bmp[i*(real_width>>3)+end_x];
+      Monochrome   920                    if(bool3) line &= -1<<real_width-width;
+      Monochrome   921                    line <<= shift;
+      Monochrome   922                    if(begin_x < end_x || bool1) screen[end_x] |= *p;
+      Monochrome   923                    if(bool2) screen[end_x+1] |= *(p+1);
+      Monochrome   924                    screen += 16;
+      Monochrome   925            }
+      Monochrome   926    }
+      Monochrome   927    #endif
+      Monochrome   928    
+      Monochrome   929    #ifdef ML_BMP_AND_CL
+      Monochrome   930    void ML_bmp_and_cl(const unsigned char *bmp, int x, int y, int width, int height)
+      Monochrome   931    {
+      Monochrome   932            unsigned short line;
+      Monochrome   933            char shift, *screen, *p;
+      Monochrome   934            int i, j, real_width, begin_x, end_x, begin_y, end_y;
+      Monochrome   935            char bool1=1, bool2=1, bool3;
+      Monochrome   936            if(!bmp || x<1-width || x>127 || y<1-height || y>63 || height<1 || width<1) return;
+      Monochrome   937            p = (char*)&line;
+      Monochrome   938            real_width = (width-1>>3<<3)+8;
+      Monochrome   939            if(y < 0) begin_y = -y;
+      Monochrome   940            else begin_y = 0;
+      Monochrome   941            if(y+height > 64) end_y = 64-y;
+      Monochrome   942            else end_y = height;
+      Monochrome   943            shift = 8-(x&7);
+      Monochrome   944            if(x<0)
+      Monochrome   945            {
+      Monochrome   946                    begin_x = -x>>3;
+      Monochrome   947                    if(shift != 8) bool1 = 0;
+      Monochrome   948            } else begin_x = 0;
+      Monochrome   949            if(x+real_width > 128) end_x = 15-(x>>3), bool2 = 0;
+      Monochrome   950            else end_x = real_width-1>>3;
+      Monochrome   951            bool3 = (end_x == real_width-1>>3);
+      Monochrome   952            screen = ML_vram_adress()+(y+begin_y<<4)+(x>>3);
+      Monochrome   953    
+      Monochrome   954            for(i=begin_y ; i<end_y ; i++)
+      Monochrome   955            {
+      Monochrome   956                    if(begin_x < end_x)
+      Monochrome   957    
+      Monochrome   958                    {
+      Monochrome   959                            line = ~((unsigned char)~bmp[i*(real_width>>3)+begin_x]<<shift);
+      Monochrome   960                            if(bool1) screen[begin_x] &= *p;
+      Monochrome   961                            if(shift!=8) screen[begin_x+1] &= *(p+1);
+      Monochrome   962                            for(j=begin_x+1 ; j<end_x ; j++)
+      Monochrome   963                            {
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 16-Dec-2013 17:27:13  PAGE   22
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+      Monochrome   964                                    line = ~((unsigned char)~bmp[i*(real_width>>3)+j]<<shift);
+      Monochrome   965                                    screen[j] &= *p;
+      Monochrome   966                                    if(shift!=8) screen[j+1] &= *(p+1);
+      Monochrome   967                            }
+      Monochrome   968                    }
+      Monochrome   969                    line = (unsigned char)~bmp[i*(real_width>>3)+end_x];
+      Monochrome   970                    if(bool3) line &= -1<<real_width-width;
+      Monochrome   971                    line = ~(line << shift);
+      Monochrome   972                    if(begin_x < end_x || bool1) screen[end_x] &= *p;
+      Monochrome   973                    if(bool2) screen[end_x+1] &= *(p+1);
+      Monochrome   974                    screen += 16;
+      Monochrome   975            }
+      Monochrome   976    }
+      Monochrome   977    #endif
+      Monochrome   978    
+      Monochrome   979    #ifdef ML_BMP_XOR_CL
+      Monochrome   980    void ML_bmp_xor_cl(const unsigned char *bmp, int x, int y, int width, int height)
+      Monochrome   981    {
+      Monochrome   982            unsigned short line;
+      Monochrome   983            char shift, *screen, *p;
+      Monochrome   984            int i, j, real_width, begin_x, end_x, begin_y, end_y;
+      Monochrome   985            char bool1=1, bool2=1, bool3;
+      Monochrome   986            if(!bmp || x<1-width || x>127 || y<1-height || y>63 || height<1 || width<1) return;
+      Monochrome   987            p = (char*)&line;
+      Monochrome   988            real_width = (width-1>>3<<3)+8;
+      Monochrome   989            if(y < 0) begin_y = -y;
+      Monochrome   990            else begin_y = 0;
+      Monochrome   991            if(y+height > 64) end_y = 64-y;
+      Monochrome   992            else end_y = height;
+      Monochrome   993            shift = 8-(x&7);
+      Monochrome   994            if(x<0)
+      Monochrome   995            {
+      Monochrome   996                    begin_x = -x>>3;
+      Monochrome   997                    if(shift != 8) bool1 = 0;
+      Monochrome   998            } else begin_x = 0;
+      Monochrome   999            if(x+real_width > 128) end_x = 15-(x>>3), bool2 = 0;
+      Monochrome  1000            else end_x = real_width-1>>3;
+      Monochrome  1001            bool3 = (end_x == real_width-1>>3);
+      Monochrome  1002            screen = ML_vram_adress()+(y+begin_y<<4)+(x>>3);
+      Monochrome  1003    
+      Monochrome  1004            for(i=begin_y ; i<end_y ; i++)
+      Monochrome  1005            {
+      Monochrome  1006                    if(begin_x < end_x)
+      Monochrome  1007                    {
+      Monochrome  1008                            line = bmp[i*(real_width>>3)+begin_x] << shift;
+      Monochrome  1009                            if(bool1) screen[begin_x] ^= *p;
+      Monochrome  1010                            if(shift!=8) screen[begin_x+1] ^= *(p+1);
+      Monochrome  1011                            for(j=begin_x+1 ; j<end_x ; j++)
+      Monochrome  1012                            {
+      Monochrome  1013                                    line = bmp[i*(real_width>>3)+j] << shift;
+      Monochrome  1014                                    screen[j] ^= *p;
+      Monochrome  1015                                    if(shift!=8) screen[j+1] ^= *(p+1);
+      Monochrome  1016                            }
+      Monochrome  1017                    }
+      Monochrome  1018                    line = bmp[i*(real_width>>3)+end_x];
+      Monochrome  1019                    if(bool3) line &= -1<<real_width-width;
+      Monochrome  1020                    line <<= shift;
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 16-Dec-2013 17:27:13  PAGE   23
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+      Monochrome  1021                    if(begin_x < end_x || bool1) screen[end_x] ^= *p;
+      Monochrome  1022                    if(bool2) screen[end_x+1] ^= *(p+1);
+      Monochrome  1023                    screen += 16;
+      Monochrome  1024            }
+      Monochrome  1025    }
+      Monochrome  1026    
+      Monochrome  1027    #endif
+      Monochrome  1028    
+      Monochrome  1029    #ifdef ML_BMP_8_OR
+      Monochrome  1030    void ML_bmp_8_or(const unsigned char *bmp, int x, int y)
+      Monochrome  1031    {
+      Monochrome  1032            unsigned short line;
+      Monochrome  1033            char i, shift, begin=0, end=8, *screen, *p=(char*)&line;
+      Monochrome  1034            if(!bmp || x<0 || x>120 || y<-7 || y>63) return;
+      Monochrome  1035            if(y < 0) begin = -y;
+      Monochrome  1036            if(y > 56) end = 64-y;
+      Monochrome  1037            shift = 8-(x&7);
+      Monochrome  1038            screen = ML_vram_adress()+(y+begin<<4)+(x>>3);
+      Monochrome  1039            for(i=begin ; i<end ; i++)
+      Monochrome  1040            {
+      Monochrome  1041                    line = bmp[i]<<shift;
+      Monochrome  1042                    screen[0] |= *p;
+      Monochrome  1043                    if(shift!=8) screen[1] |= *(p+1);
+      Monochrome  1044                    screen += 16;
+      Monochrome  1045            }
+      Monochrome  1046    }
+      Monochrome  1047    #endif
+      Monochrome  1048    
+      Monochrome  1049    #ifdef ML_BMP_8_AND
+      Monochrome  1050    void ML_bmp_8_and(const unsigned char *bmp, int x, int y)
+      Monochrome  1051    {
+      Monochrome  1052            unsigned short line;
+      Monochrome  1053            char i, shift, begin=0, end=8, *screen, *p=(char*)&line;
+      Monochrome  1054            if(!bmp || x<0 || x>120 || y<-7 || y>63) return;
+      Monochrome  1055            if(y < 0) begin = -y;
+      Monochrome  1056            if(y > 56) end = 64-y;
+      Monochrome  1057            shift = 8-(x&7);
+      Monochrome  1058            screen = ML_vram_adress()+(y+begin<<4)+(x>>3);
+      Monochrome  1059            for(i=begin ; i<end ; i++)
+      Monochrome  1060            {
+      Monochrome  1061                    line = ~((unsigned char)~bmp[i]<<shift);
+      Monochrome  1062                    screen[0] &= *p;
+      Monochrome  1063                    if(shift!=8) screen[1] &= *(p+1);
+      Monochrome  1064                    screen += 16;
+      Monochrome  1065            }
+      Monochrome  1066    }
+      Monochrome  1067    #endif
+      Monochrome  1068    
+      Monochrome  1069    #ifdef ML_BMP_8_XOR
+      Monochrome  1070    void ML_bmp_8_xor(const unsigned char *bmp, int x, int y)
+      Monochrome  1071    {
+      Monochrome  1072            unsigned short line;
+      Monochrome  1073            char i, shift, begin=0, end=8, *screen, *p=(char*)&line;
+      Monochrome  1074            if(!bmp || x<0 || x>120 || y<-7 || y>63) return;
+      Monochrome  1075            if(y < 0) begin = -y;
+      Monochrome  1076            if(y > 56) end = 64-y;
+      Monochrome  1077            shift = 8-(x&7);
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 16-Dec-2013 17:27:13  PAGE   24
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+      Monochrome  1078            screen = ML_vram_adress()+(y+begin<<4)+(x>>3);
+      Monochrome  1079            for(i=begin ; i<end ; i++)
+      Monochrome  1080            {
+      Monochrome  1081                    line = bmp[i]<<shift;
+      Monochrome  1082                    screen[0] ^= *p;
+      Monochrome  1083                    if(shift<8) screen[1] ^= *(p+1);
+      Monochrome  1084                    screen += 16;
+      Monochrome  1085            }
+      Monochrome  1086    }
+      Monochrome  1087    #endif
+      Monochrome  1088    
+      Monochrome  1089    #ifdef ML_BMP_8_OR_CL
+      Monochrome  1090    void ML_bmp_8_or_cl(const unsigned char *bmp, int x, int y)
+      Monochrome  1091    {
+      Monochrome  1092            unsigned short line;
+      Monochrome  1093            char i, shift, begin=0, end=8, bool1=1, bool2=1, *screen, *p=(char*)&line;
+      Monochrome  1094            if(!bmp || x<-7 || x>127 || y<-7 || y>63) return;
+      Monochrome  1095            if(y < 0) begin = -y;
+      Monochrome  1096            if(y > 56) end = 64-y;
+      Monochrome  1097            shift = 8-(x&7);
+      Monochrome  1098            if(x < 0) bool1 = 0;
+      Monochrome  1099            if(x>120 || shift==8) bool2 = 0;
+      Monochrome  1100            screen = ML_vram_adress()+(y+begin<<4)+(x>>3);
+      Monochrome  1101            for(i=begin ; i<end ; i++)
+      Monochrome  1102            {
+      Monochrome  1103                    line = bmp[i]<<shift;
+      Monochrome  1104                    if(bool1) screen[0] |= *p;
+      Monochrome  1105                    if(bool2) screen[1] |= *(p+1);
+      Monochrome  1106                    screen += 16;
+      Monochrome  1107            }
+      Monochrome  1108    }
+      Monochrome  1109    #endif
+      Monochrome  1110    
+      Monochrome  1111    #ifdef ML_BMP_8_AND_CL
+      Monochrome  1112    void ML_bmp_8_and_cl(const unsigned char *bmp, int x, int y)
+      Monochrome  1113    {
+      Monochrome  1114            unsigned short line;
+      Monochrome  1115            char i, shift, begin=0, end=8, bool1=1, bool2=1, *screen, *p=(char*)&line;
+      Monochrome  1116            if(!bmp || x<-7 || x>127 || y<-7 || y>63) return;
+      Monochrome  1117            if(y < 0) begin = -y;
+      Monochrome  1118            if(y > 56) end = 64-y;
+      Monochrome  1119            shift = 8-(x&7);
+      Monochrome  1120            if(x < 0) bool1 = 0;
+      Monochrome  1121            if(x>120 || shift==8) bool2 = 0;
+      Monochrome  1122            screen = ML_vram_adress()+(y+begin<<4)+(x>>3);
+      Monochrome  1123            for(i=begin ; i<end ; i++)
+      Monochrome  1124            {
+      Monochrome  1125                    line = ~((unsigned char)~bmp[i]<<shift);
+      Monochrome  1126                    if(bool1) screen[0] &= *p;
+      Monochrome  1127                    if(bool2) screen[1] &= *(p+1);
+      Monochrome  1128                    screen += 16;
+      Monochrome  1129            }
+      Monochrome  1130    }
+      Monochrome  1131    #endif
+      Monochrome  1132    
+      Monochrome  1133    #ifdef ML_BMP_8_XOR_CL
+      Monochrome  1134    void ML_bmp_8_xor_cl(const unsigned char *bmp, int x, int y)
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 16-Dec-2013 17:27:13  PAGE   25
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+      Monochrome  1135    {
+      Monochrome  1136            unsigned short line;
+      Monochrome  1137            char i, shift, begin=0, end=8, bool1=1, bool2=1, *screen, *p=(char*)&line;
+      Monochrome  1138            if(!bmp || x<-7 || x>127 || y<-7 || y>63) return;
+      Monochrome  1139            if(y < 0) begin = -y;
+      Monochrome  1140            if(y > 56) end = 64-y;
+      Monochrome  1141            shift = 8-(x&7);
+      Monochrome  1142            if(x < 0) bool1 = 0;
+      Monochrome  1143            if(x>120 || shift==8) bool2 = 0;
+      Monochrome  1144            screen = ML_vram_adress()+(y+begin<<4)+(x>>3);
+      Monochrome  1145            for(i=begin ; i<end ; i++)
+      Monochrome  1146            {
+      Monochrome  1147                    line = bmp[i]<<shift;
+      Monochrome  1148                    if(bool1) screen[0] ^= *p;
+      Monochrome  1149                    if(bool2) screen[1] ^= *(p+1);
+      Monochrome  1150                    screen += 16;
+      Monochrome  1151            }
+      Monochrome  1152    }
+      Monochrome  1153    #endif
+      Monochrome  1154    
+      Monochrome  1155    #ifdef ML_BMP_16_OR
+      Monochrome  1156    void ML_bmp_16_or(const unsigned short *bmp, int x, int y)
+      Monochrome  1157    {
+      Monochrome  1158            unsigned long line;
+      Monochrome  1159            char i, shift, begin=0, end=16, *screen, *p=(char*)&line+1;
+      Monochrome  1160            if(!bmp || x<0 || x>112 || y<-15 || y>63) return;
+      Monochrome  1161            if(y < 0) begin = -y;
+      Monochrome  1162            if(y > 48) end = 64-y;
+      Monochrome  1163            shift = 8-(x&7);
+      Monochrome  1164            screen = ML_vram_adress()+(y+begin<<4)+(x>>3);
+      Monochrome  1165            for(i=begin ; i<end ; i++)
+      Monochrome  1166            {
+      Monochrome  1167                    line = bmp[i]<<shift;
+      Monochrome  1168                    screen[0] |= *p;
+      Monochrome  1169                    screen[1] |= *(p+1);
+      Monochrome  1170                    if(shift!=8) screen[2] |= *(p+2);
+      Monochrome  1171                    screen += 16;
+      Monochrome  1172            }
+      Monochrome  1173    }
+      Monochrome  1174    #endif
+      Monochrome  1175    
+      Monochrome  1176    #ifdef ML_BMP_16_AND
+      Monochrome  1177    void ML_bmp_16_and(const unsigned short *bmp, int x, int y)
+      Monochrome  1178    {
+      Monochrome  1179            unsigned long line;
+      Monochrome  1180            char i, shift, begin=0, end=16, *screen, *p=(char*)&line+1;
+      Monochrome  1181            if(!bmp || x<0 || x>112 || y<-15 || y>63) return;
+      Monochrome  1182            if(y < 0) begin = -y;
+      Monochrome  1183            if(y > 48) end = 64-y;
+      Monochrome  1184            shift = 8-(x&7);
+      Monochrome  1185            screen = ML_vram_adress()+(y+begin<<4)+(x>>3);
+      Monochrome  1186            for(i=begin ; i<end ; i++)
+      Monochrome  1187            {
+      Monochrome  1188                    line = ~((unsigned short)~bmp[i]<<shift);
+      Monochrome  1189                    screen[0] &= *p;
+      Monochrome  1190                    screen[1] &= *(p+1);
+      Monochrome  1191                    if(shift!=8) screen[2] &= *(p+2);
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 16-Dec-2013 17:27:13  PAGE   26
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+      Monochrome  1192                    screen += 16;
+      Monochrome  1193            }
+      Monochrome  1194    }
+      Monochrome  1195    #endif
+      Monochrome  1196    
+      Monochrome  1197    #ifdef ML_BMP_16_XOR
+      Monochrome  1198    void ML_bmp_16_xor(const unsigned short *bmp, int x, int y)
+      Monochrome  1199    {
+      Monochrome  1200            unsigned long line;
+      Monochrome  1201            char i, shift, begin=0, end=16, *screen, *p=(char*)&line+1;
+      Monochrome  1202            if(!bmp || x<0 || x>112 || y<-15 || y>63) return;
+      Monochrome  1203            if(y < 0) begin = -y;
+      Monochrome  1204            if(y > 48) end = 64-y;
+      Monochrome  1205            shift = 8-(x&7);
+      Monochrome  1206            screen = ML_vram_adress()+(y+begin<<4)+(x>>3);
+      Monochrome  1207            for(i=begin ; i<end ; i++)
+      Monochrome  1208            {
+      Monochrome  1209                    line = bmp[i]<<shift;
+      Monochrome  1210                    screen[0] ^= *p;
+      Monochrome  1211                    screen[1] ^= *(p+1);
+      Monochrome  1212                    if(shift!=8) screen[2] ^= *(p+2);
+      Monochrome  1213                    screen += 16;
+      Monochrome  1214            }
+      Monochrome  1215    }
+      Monochrome  1216    #endif
+      Monochrome  1217    
+      Monochrome  1218    #ifdef ML_BMP_16_OR_CL
+      Monochrome  1219    void ML_bmp_16_or_cl(const unsigned short *bmp, int x, int y)
+      Monochrome  1220    {
+      Monochrome  1221            unsigned long line;
+      Monochrome  1222            char i, shift, begin=0, end=16, bool1=1, bool2=1, bool3=1, *screen, *p=(char*)&line+1;
+      Monochrome  1223            if(!bmp || x<-15 || x>127 || y<-15 || y>63) return;
+      Monochrome  1224            if(y < 0) begin = -y;
+      Monochrome  1225            if(y > 48) end = 64-y;
+      Monochrome  1226            shift = 8-(x&7);
+      Monochrome  1227            if(x < 0) bool1 = 0;
+      Monochrome  1228            if(x<-8 || x>119) bool2 = 0;
+      Monochrome  1229            if(x>111 || shift==8) bool3 = 0;
+      Monochrome  1230            screen = ML_vram_adress()+(y+begin<<4)+(x>>3);
+      Monochrome  1231            for(i=begin ; i<end ; i++)
+      Monochrome  1232            {
+      Monochrome  1233                    line = bmp[i]<<shift;
+      Monochrome  1234                    if(bool1) screen[0] |= *p;
+      Monochrome  1235                    if(bool2) screen[1] |= *(p+1);
+      Monochrome  1236                    if(bool3) screen[2] |= *(p+2);
+      Monochrome  1237                    screen += 16;
+      Monochrome  1238            }
+      Monochrome  1239    }
+      Monochrome  1240    #endif
+      Monochrome  1241    
+      Monochrome  1242    #ifdef ML_BMP_16_AND_CL
+      Monochrome  1243    void ML_bmp_16_and_cl(const unsigned short *bmp, int x, int y)
+      Monochrome  1244    {
+      Monochrome  1245            unsigned long line;
+      Monochrome  1246            char i, shift, begin=0, end=16, bool1=1, bool2=1, bool3=1, *screen, *p=(char*)&line+1;
+      Monochrome  1247            if(!bmp || x<-15 || x>127 || y<-15 || y>63) return;
+      Monochrome  1248            if(y < 0) begin = -y;
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 16-Dec-2013 17:27:13  PAGE   27
+
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+      Monochrome  1249            if(y > 48) end = 64-y;
+      Monochrome  1250            shift = 8-(x&7);
+      Monochrome  1251            if(x < 0) bool1 = 0;
+      Monochrome  1252            if(x<-8 || x>119) bool2 = 0;
+      Monochrome  1253            if(x>111 || shift==8) bool3 = 0;
+      Monochrome  1254            screen = ML_vram_adress()+(y+begin<<4)+(x>>3);
+      Monochrome  1255            for(i=begin ; i<end ; i++)
+      Monochrome  1256            {
+      Monochrome  1257                    line = ~((unsigned short)~bmp[i]<<shift);
+      Monochrome  1258                    if(bool1) screen[0] &= *p;
+      Monochrome  1259                    if(bool2) screen[1] &= *(p+1);
+      Monochrome  1260                    if(bool3) screen[2] &= *(p+2);
+      Monochrome  1261                    screen += 16;
+      Monochrome  1262            }
+      Monochrome  1263    }
+      Monochrome  1264    #endif
+      Monochrome  1265    
+      Monochrome  1266    #ifdef ML_BMP_16_XOR_CL
+      Monochrome  1267    void ML_bmp_16_xor_cl(const unsigned short *bmp, int x, int y)
+      Monochrome  1268    {
+      Monochrome  1269            unsigned long line;
+      Monochrome  1270            char i, shift, begin=0, end=16, bool1=1, bool2=1, bool3=1, *screen, *p=(char*)&line+1;
+      Monochrome  1271            if(!bmp || x<-15 || x>127 || y<-15 || y>63) return;
+      Monochrome  1272            if(y < 0) begin = -y;
+      Monochrome  1273            if(y > 48) end = 64-y;
+      Monochrome  1274            shift = 8-(x&7);
+      Monochrome  1275            if(x < 0) bool1 = 0;
+      Monochrome  1276            if(x<-8 || x>119) bool2 = 0;
+      Monochrome  1277            if(x>111 || shift==8) bool3 = 0;
+      Monochrome  1278            screen = ML_vram_adress()+(y+begin<<4)+(x>>3);
+      Monochrome  1279            for(i=begin ; i<end ; i++)
+      Monochrome  1280            {
+      Monochrome  1281                    line = bmp[i]<<shift;
+      Monochrome  1282                    if(bool1) screen[0] ^= *p;
+      Monochrome  1283                    if(bool2) screen[1] ^= *(p+1);
+      Monochrome  1284                    if(bool3) screen[2] ^= *(p+2);
+      Monochrome  1285                    screen += 16;
+      Monochrome  1286            }
+      Monochrome  1287    }
+      Monochrome  1288    #endif
+      Monochrome  1289    
+D   00000000              __$SysCallCode:                  ; static: SysCallCode
+    00000000 D201422B60             .DATA.L     H'D201422B,H'60F20000,H'80010070
+             F200008001   
+             0070         
+    0000000C              __$SysCall:                      ; static: SysCall
+    0000000C <00000000>             .DATA.L     __$SysCallCode
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SH SERIES C/C++ Compiler (Ver. 6.0C)                                                                 16-Dec-2013 17:27:13  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:     1289
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000198 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000010 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+ TOTAL PROGRAM SIZE: 000001A8 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            0
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           5
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            20
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** COMMAND PARAMETER ***
+
+
+  -subcommand=C:\Users\Afonso\AppData\Local\Temp\hmkAC4B.tmp 
+

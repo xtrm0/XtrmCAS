@@ -1,8 +1,8 @@
 #include "poly.h" //my polynomials class, /
-//this method is based on the fact that all real rational must be in the form (a/b), where a is a divisor
-//of the the highest rank poly, and b is a dividor of the lowest rank one.
-//Afte that we know that the remaining root are irational, and we use some method, such as tat described in
-//this page to solve: (http://en.wikipedia.org/wiki/Root-finding_algorithm#Algorithm)
+//this method is based on the fact that all real rational roots must be in the form (a/b), where a is a divisor
+//of the the highest rank poly, and b is a divisor of the lowest rank one.
+//After that we know that the remaining root are irrational, and we use some method, such as that described in
+//this page to solve, or to aproximate roots: (http://en.wikipedia.org/wiki/Root-finding_algorithm#Algorithm)
 
 double x_pow(double a, int b) {
 	int i;

@@ -1,0 +1,511 @@
+Hitachi Optimizing Linkage Editor (Ver. 7.1.03.000)16-Dec-2013 17:27:13
+
+*** Options ***
+
+-subcommand=C:\Users\Afonso\AppData\Local\Temp\hmkAD94.tmp
+noprelink
+sdebug
+rom D=R
+nomessage
+list "C:\Users\Afonso\Documents\GitHub\XtrmCAS\Debug\FXADDINror.map"
+show symbol
+nooptimize
+start P_TOP,P,C,D,C$VTBL,C$INIT/0300200,B_BR_Size,B,R/08100000
+fsymbol P
+nologo
+input "C:\Users\Afonso\Documents\GitHub\XtrmCAS\Debug\XtrmCAS.obj" "C:\Users\Afonso\Documents\GitHub\XtrmCAS\Debug\console.obj" "C:\Users\Afonso\Documents\GitHub\XtrmCAS\Debug\MonochromeLib.obj"
+input "C:\CASIO\fx9860SDK\OS\FX\lib\setup.obj"
+library "C:\CASIO\fx9860SDK\OS\FX\lib\fx9860G_library.lib"
+output "C:\Users\Afonso\Documents\GitHub\XtrmCAS\Debug\FXADDINror.abs"
+-nomessage=1100
+end
+
+*** Error information ***
+
+*** Mapping List ***
+
+SECTION                            START      END         SIZE   ALIGN
+
+P_TOP
+                                  00300200  0030020b         c   4
+P
+                                  0030020c  00302c23      2a18   4
+C
+                                  00302c24  00302ff7       3d4   4
+D
+                                  00302ff8  00303023        2c   4
+B_BR_Size
+                                  08100000  08100003         4   4
+B
+                                  08100004  0810040f       40c   4
+R
+                                  08100410  0810043b        2c   4
+
+*** Symbol List ***
+
+SECTION=
+FILE=                               START        END    SIZE
+  SYMBOL                            ADDR        SIZE    INFO      COUNTS  OPT
+
+SECTION=P_TOP
+FILE=C:\Users\Afonso\Documents\GitHub\XtrmCAS\Debug\XtrmCAS.obj
+                                  00300200  0030020b         c
+  _InitializeSystem
+                                  00300200         c   func ,g         * 
+
+SECTION=P
+FILE=C:\Users\Afonso\Documents\GitHub\XtrmCAS\Debug\XtrmCAS.obj
+                                  0030020c  003018d3      16c8
+  _x_gcd
+                                  0030020c        2c   func ,g         * 
+  _x_lcm
+                                  00300238        2a   func ,g         * 
+  _simp_fract
+                                  00300262        26   func ,g         * 
+  _isvalid_fract
+                                  00300288        1c   func ,g         * 
+  _init_fract
+                                  003002a4         c   func ,g         * 
+  _add_fract
+                                  003002b0        c2   func ,g         * 
+  _subtr_fract
+                                  00300372        1c   func ,g         * 
+  _mult_fract
+                                  0030038e        6e   func ,g         * 
+  _div_fract
+                                  003003fc        84   func ,g         * 
+  _pow_fract
+                                  00300480        54   func ,g         * 
+  _init_poly
+                                  003004d4        2c   func ,g         * 
+  _poly_degree
+                                  00300500        26   func ,g         * 
+  _print_poly
+                                  00300526       198   func ,g         * 
+  _print_poly_noendl
+                                  003006be       1b4   func ,g         * 
+  _add_poly
+                                  00300872        3a   func ,g         * 
+  _subtr_poly
+                                  003008ac        50   func ,g         * 
+  _simetric_poly
+                                  003008fc        26   func ,g         * 
+  _mult_poly
+                                  00300922        98   func ,g         * 
+  _div_poly
+                                  003009ba       1a4   func ,g         * 
+  _rem_poly
+                                  00300b5e       1d6   func ,g         * 
+  _factor_poly
+                                  00300d34       3c4   func ,g         * 
+  _solvepoly
+                                  003010f8        3a   func ,g         * 
+  _read_num
+                                  00301132        e0   func ,g         * 
+  _read_poly
+                                  00301212       22c   func ,g         * 
+  _programa
+                                  0030143e       420   func ,g         * 
+  _doloop
+                                  0030185e        10   func ,g         * 
+  _AddIn_main
+                                  0030186e        66   func ,g         * 
+FILE=C:\Users\Afonso\Documents\GitHub\XtrmCAS\Debug\console.obj
+                                  003018d4  00301d6b       498
+  _Cursor_SetFlashMode
+                                  003018d4        1a   func ,g         * 
+  _clear
+                                  003018ee         e   func ,g         * 
+  _putchar
+                                  003018fc        9a   func ,g         * 
+  _print
+                                  00301996        e8   func ,g         * 
+  _print_int
+                                  00301a7e        60   func ,g         * 
+  _getchar
+                                  00301ade       28e   func ,g         * 
+FILE=C:\Users\Afonso\Documents\GitHub\XtrmCAS\Debug\MonochromeLib.obj
+                                  00301d6c  00301f03       198
+  _ML_vram_adress
+                                  00301d6c        1c   func ,g         * 
+  _ML_clear_vram
+                                  00301d88        5c   func ,g         * 
+  _ML_clear_screen
+                                  00301de4        3a   func ,g         * 
+  _ML_display_vram
+                                  00301e1e        4a   func ,g         * 
+  _ML_vertical_scroll
+                                  00301e68        9c   func ,g         * 
+FILE=C:\CASIO\fx9860SDK\OS\FX\lib\setup.obj
+                                  00301f04  0030201f       11c
+  ___LINK_PROTECT
+                                  00301f04         4   func ,g         * 
+  _SetQuitHandler
+                                  00301f08         6   func ,g         * 
+  _OnAppCloseDefault
+                                  00301f0e        54   func ,g         * 
+  __INITSCT_ADDIN
+                                  00301f62        48   func ,g         * 
+  _INIT_ADDIN_APPLICATION
+                                  00301faa        76   func ,g         * 
+FILE=__divls
+                                  00302020  003020d3        b4
+  __divls
+                                  00302020         0   none ,g         * 
+  divls_zero
+                                  003020be         0   none ,l         * 
+  A_errno
+                                  003020cc         0   none ,l         * 
+  n_zerono
+                                  003020d0         0   none ,l         * 
+FILE=__modls
+                                  003020d4  0030219b        c8
+  __modls
+                                  003020d4         0   none ,g         * 
+  modls_L
+                                  0030217a         0   none ,l         * 
+  modls_zero
+                                  00302186         0   none ,l         * 
+  A_errno
+                                  00302194         0   none ,l         * 
+  n_zerono
+                                  00302198         0   none ,l         * 
+FILE=__q_fmvn
+                                  0030219c  0030223f        a4
+  __quick_evn_mvn
+                                  0030219c         0   none ,g         * 
+  __quick_odd_mvn
+                                  003021a8         0   none ,g         * 
+  A_FMVN_TBL
+                                  003021b4         0   none ,l         * 
+  FMVN_64
+                                  003021ba         0   none ,l         * 
+  FMVN_60
+                                  003021be         0   none ,l         * 
+  FMVN_56
+                                  003021c2         0   none ,l         * 
+  FMVN_52
+                                  003021c6         0   none ,l         * 
+  FMVN_48
+                                  003021ca         0   none ,l         * 
+  FMVN_44
+                                  003021ce         0   none ,l         * 
+  FMVN_40
+                                  003021d2         0   none ,l         * 
+  FMVN_36
+                                  003021d6         0   none ,l         * 
+  FMVN_32
+                                  003021da         0   none ,l         * 
+  FMVN_28
+                                  003021de         0   none ,l         * 
+  FMVN_24
+                                  003021e2         0   none ,l         * 
+  FMVN_20
+                                  003021e6         0   none ,l         * 
+  FMVN_16
+                                  003021ea         0   none ,l         * 
+  FMVN_12
+                                  003021ee         0   none ,l         * 
+  FMVN_8
+                                  003021f2         0   none ,l         * 
+  FMVN_4
+                                  003021f6         0   none ,l         * 
+  FMVN_0
+                                  003021f8         0   none ,l         * 
+  FMVN_TBL
+                                  003021fc         0   none ,l         * 
+FILE=__s_mvn
+                                  00302240  00302277        38
+  __slow_mvn
+                                  00302240         0   none ,g         * 
+  SMVN_B
+                                  0030224e         0   none ,l         * 
+  SMVN_END
+                                  00302270         0   none ,l         * 
+FILE=atoi
+                                  00302278  00302283         c
+  _atoi
+                                  00302278         c   func ,g         * 
+FILE=strlen
+                                  00302284  00302293        10
+  _strlen
+                                  00302284        10   func ,g         * 
+FILE=_Bdel_cychdr
+                                  00302294  003022a3        10
+  _Bdel_cychdr
+                                  00302294         0   none ,g         * 
+FILE=_Bdisp_AllClr_DDVRAM
+                                  003022a4  003022b3        10
+  _Bdisp_AllClr_DDVRAM
+                                  003022a4         0   none ,g         * 
+FILE=_BfileFLS_CloseFile
+                                  003022b4  003022c3        10
+  _BfileFLS_CloseFile
+                                  003022b4         0   none ,g         * 
+FILE=_Bkey_Set_RepeatTime_Default
+                                  003022c4  003022d3        10
+  _Bkey_Set_RepeatTime_Default
+                                  003022c4         0   none ,g         * 
+FILE=_CallbackAtQuitMainFunction
+                                  003022d4  003022e3        10
+  _CallbackAtQuitMainFunction
+                                  003022d4         0   none ,g         * 
+FILE=_flsFindClose
+                                  003022e4  003022f3        10
+  _flsFindClose
+                                  003022e4         0   none ,g         * 
+FILE=_getkey
+                                  003022f4  00302303        10
+  _GetKey
+                                  003022f4         0   none ,g         * 
+FILE=_GLibAddinAplExecutionCheck
+                                  00302304  00302313        10
+  _GLibAddinAplExecutionCheck
+                                  00302304         0   none ,g         * 
+FILE=_Hmem_SetMMU
+                                  00302314  00302323        10
+  _Hmem_SetMMU
+                                  00302314         0   none ,g         * 
+FILE=_Print
+                                  00302324  00302333        10
+  _Print
+                                  00302324         0   none ,g         * 
+FILE=_PrintC
+                                  00302334  00302343        10
+  _PrintC
+                                  00302334         0   none ,g         * 
+FILE=dispbios
+                                  00302344  003024b9       176
+  _PrintMini
+                                  00302344        1c   func ,g         * 
+  _locate
+                                  00302360        28   func ,g         * 
+  _Bdisp_ReadArea_DD
+                                  00302388       132   func ,g         * 
+FILE=keybios
+                                  003024bc  003027ff       344
+  _GetKeyWait
+                                  003024bc        40   func ,g         * 
+  _Bkey_GetKeyTableInfo
+                                  003024fc        5c   func ,g         * 
+  _KeyCodeConvert
+                                  00302558        78   func ,g         * 
+  _END$270
+                                  00302596         0   none ,l         * 
+  __Delay
+                                  003025d0        88   func ,g         * 
+  _Hkey_Check_Key_SDK
+                                  00302658       12c   func ,g         * 
+  _IsKeyDown
+                                  00302784        30   func ,g         * 
+  _IsKeyUp
+                                  003027b4        4c   func ,g         * 
+FILE=strtol
+                                  00302800  00302ac3       2c4
+  _strtol
+                                  00302800       2c4   func ,g         * 
+FILE=_Bkey_GetKeyTableInfoJumpFunc
+                                  00302ac4  00302ad3        10
+  _Bkey_GetKeyTableInfoJumpFunc
+                                  00302ac4         0   none ,g         * 
+FILE=_Bkey_GetKeyWait
+                                  00302ad4  00302ae3        10
+  _Bkey_GetKeyWait
+                                  00302ad4         0   none ,g         * 
+FILE=_Chattering
+                                  00302ae4  00302af3        10
+  _Chattering
+                                  00302ae4         0   none ,g         * 
+FILE=_DD_GET
+                                  00302af4  00302b03        10
+  _DD_GET
+                                  00302af4         0   none ,g         * 
+FILE=_GLibGetAddinLibInfo
+                                  00302b04  00302b13        10
+  _GLibGetAddinLibInfo
+                                  00302b04         0   none ,g         * 
+FILE=_GLibGetOSVersionInfo
+                                  00302b14  00302b23        10
+  _GLibGetOSVersionInfo
+                                  00302b14         0   none ,g         * 
+FILE=_locate
+                                  00302b24  00302b33        10
+  _locate_OS
+                                  00302b24         0   none ,g         * 
+FILE=_PrintMiniSd
+                                  00302b34  00302b43        10
+  _PrintMiniSd
+                                  00302b34         0   none ,g         * 
+FILE=_SetIntFlagPaturn
+                                  00302b44  00302b53        10
+  _SetIntFlagPaturn
+                                  00302b44         0   none ,g         * 
+FILE=__divlu
+                                  00302b54  00302bfb        a8
+  __divlu
+                                  00302b54         0   none ,g         * 
+  divlu_zero
+                                  00302be6         0   none ,l         * 
+  A_errno
+                                  00302bf4         0   none ,l         * 
+  n_zerono
+                                  00302bf8         0   none ,l         * 
+FILE=_strchek
+                                  00302bfc  00302c23        28
+  __strchek
+                                  00302bfc        28   func ,g         * 
+
+SECTION=C
+FILE=addin_sct
+                                  00302d7c  00302d8f        14
+  _B_BGN
+                                  00302d7c         0   none ,g         * 
+  _B_END
+                                  00302d80         0   none ,g         * 
+  _R_BGN
+                                  00302d84         0   none ,g         * 
+  _R_END
+                                  00302d88         0   none ,g         * 
+  _D_ROM
+                                  00302d8c         0   none ,g         * 
+FILE=keybios
+                                  00302d90  00302ef7       168
+  _gb_KeyCodeTable
+                                  00302d90       150   data ,l         * 
+  _gb_usKoState
+                                  00302ee0        18   data ,l         * 
+FILE=_ctype
+                                  00302ef8  00302ff7       100
+  __ctype
+                                  00302ef8       100   data ,g         * 
+
+SECTION=B_BR_Size
+FILE=C:\Users\Afonso\Documents\GitHub\XtrmCAS\Debug\XtrmCAS.obj
+                                  08100000  08100003         4
+  _BR_Size
+                                  08100000         4   data ,g         * 
+
+SECTION=B
+FILE=C:\Users\Afonso\Documents\GitHub\XtrmCAS\Debug\console.obj
+                                  08100004  0810040b       408
+  _inputBuffer
+                                  08100004       400   data ,g         * 
+  _inputPtr
+                                  08100404         4   data ,g         * 
+  _cur
+                                  08100408         4   data ,g         * 
+FILE=_errno
+                                  0810040c  0810040f         4
+  __errno
+                                  0810040c         4   data ,g         * 
+
+SECTION=R
+FILE=C:\Users\Afonso\Documents\GitHub\XtrmCAS\Debug\console.obj
+                                  08100410  08100423        14
+  _inputSize
+                                  08100410         4   data ,g         * 
+  _SysCallCode
+                                  08100414         c   data ,l         * 
+  _SysCall
+                                  08100420         4   data ,l         * 
+FILE=C:\Users\Afonso\Documents\GitHub\XtrmCAS\Debug\MonochromeLib.obj
+                                  08100424  08100433        10
+  _SysCallCode
+                                  08100424         c   data ,l         * 
+  _SysCall
+                                  08100430         4   data ,l         * 
+FILE=C:\CASIO\fx9860SDK\OS\FX\lib\setup.obj
+                                  08100434  08100437         4
+  _gb_OnAppClose
+                                  08100434         4   data ,g         * 
+FILE=keybios
+                                  08100438  0810043b         4
+  _gb_pKeyMatrix
+                                  08100438         4   data ,g         * 
+
+Absolute value symbols
+FILE=__divls
+  zerodiv
+                                  0000044e         0   none ,l         * 
+FILE=__modls
+  zerodiv
+                                  0000044e         0   none ,l         * 
+FILE=_Bdel_cychdr
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_Bdisp_AllClr_DDVRAM
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_BfileFLS_CloseFile
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_Bkey_Set_RepeatTime_Default
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_CallbackAtQuitMainFunction
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_flsFindClose
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_getkey
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_GLibAddinAplExecutionCheck
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_Hmem_SetMMU
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_Print
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_PrintC
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_Bkey_GetKeyTableInfoJumpFunc
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_Bkey_GetKeyWait
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_Chattering
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_DD_GET
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_GLibGetAddinLibInfo
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_GLibGetOSVersionInfo
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_locate
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_PrintMiniSd
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=_SetIntFlagPaturn
+  __JumpTableTOP
+                                  80010070         0   none ,l         * 
+FILE=__divlu
+  zerodiv
+                                  0000044e         0   none ,l         * 
+
+*** Delete Symbols ***
+
+SYMBOL                                SIZE    INFO
+
+*** Variable Accessible with Abs8 ***
+
+SYMBOL                                SIZE    COUNTS  OPTIMIZE
+
+*** Variable Accessible with Abs16 ***
+
+SYMBOL                                SIZE    COUNTS  OPTIMIZE
+
+*** Function Call ***
+
+SYMBOL                              COUNTS  OPTIMIZE
