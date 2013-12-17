@@ -1,0 +1,28 @@
+XtrmCAS
+A simple yet powerful computer algebra system written in C.
+
+The code is intended to be lightweight and fast, in order to be easy to port to calculators and other old devices.
+
+--------------------------------------------------------------------
+
+The programming phases of the CAS are the following:
+ 1) Numeric calculations using integers
+ 2) Numeric calculation using big integers
+ 3) Numerical calculations using big rationals
+ 4) Numerical calculations using polynomes
+ 5) Numerical calculations using symbols/real numbers
+ 
+--------------------------------------------------------------------
+
+The code is centered around 3 main classes:
+1) console - code that depends on the system
+2) interpreter - code that reads the input
+3) mathlibs - code that does the math and represents numbers and symbols
+
+--------------------------------------------------------------------
+
+Compiling using gcc:
+gcc -Wall xtrmcas.c
+
+Compiling in windows:
+cl xtrmcas.c
