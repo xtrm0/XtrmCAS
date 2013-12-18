@@ -36,5 +36,13 @@ int main() {
 	printf("\n");
 	num_print(&a3);
 	printf("\n");
+	printf ("c = a - b = -7\n");
+	num_sub(&a1,&a2,&a3);
+	num_print(&a1);
+	printf("\n");
+	num_print(&a2);
+	printf("\n");
+	num_print(&a3);
+	printf("\n");
 	return 0;
 }

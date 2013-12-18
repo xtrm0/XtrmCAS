@@ -88,16 +88,7 @@ void num_add(num *a, num *b, num *c) {
   } else {
     if (num_cmp_abs(a,b) == -1) {
       flag = 1;
-      num_print(a);
-      printf("\n");
-      num_print(b);
-      printf("\n");
       num_swap(a,b);
-      printf("flagged\n");
-      num_print(a);
-      printf("\n");
-      num_print(b);
-      printf("\n");
     }
     c->right = a->right;
     for (i=0; i<=c->right; i++) {
@@ -123,21 +114,24 @@ void num_sub(num *a, num *b, num *c) {
 }
 
 void num_mult(num *a, num *b, num *c) {
-  //TODO: this is slow for n bigger than 200, if we make arbitraly bigintegers, we should change to karatsuba
+  //TODO: this is slow for n bigger than 200, if we change to arbitraly bigintegers, we should change to karatsuba
   int i,j;
   lli trans=0;
   lli tmp;
   num_init(c);
-  for (i=0; i<a->right; i++) {
-    for (j=0; j<b->right; i++) {
-      c->valz[i+j] += a->valz[i]*b->valz[j];
+  for (i=0; i<=a->right; i++) {
+    for (j=0; j<=b->right; j++) {
+      c->valz[i+j] += (a->valz[i]) * (b->valz[j]);
     }
   }
+  
   for (i=0; i<MAX_COL; i++) {
     tmp = c->valz[i]+trans;
     c->valz[i] = (c->valz[i]+trans)%COL_SZ;
     trans = tmp/COL_SZ;
   }
+  //if (trans!=0) then we have reached infinity :P
+
   i = MAX_COL;
   while (c->valz[--i]==0);
   c->right = i;
@@ -149,10 +143,10 @@ void num_mult(num *a, num *b, num *c) {
 void num_print(num *a) {
   //TODO connect this to console.c
   int i;
-  if (a->signal == -1) printf("-#");
-  printf("%d", (int)a->valz[a->right]);  //TODO make this pretier (remove int typecast)
+  if (a->signal == -1) printf("-");
+  printf("%llu", a->valz[a->right]);
   for (i=a->right-1; i>=0; i--) {
-    printf(PADSTR, (int)a->valz[i]); //TODO make this pretier (remove int typecast)
+    printf(PADSTR, a->valz[i]); 
   }
 }
 
@@ -161,12 +155,15 @@ void num_print(num *a) {
 void num_swap(num *a, num *b) {
   lli tmp;
   int i;
-  i = a->signal;
-  a->signal = b->signal;
-  b->signal = i;
-  i = a->right;
-  a->right = b->right;
+
+  i = (a->right);
+  a->right = (b->right);
   b->right = i;
+
+  i = (a->signal);
+  a->signal = (b->signal);
+  b->signal = i;
+   
   for (i=0; i<MAX_COL; i++) {
     tmp = a->valz[i];
     a->valz[i] = b->valz[i];

@@ -6,8 +6,8 @@ The code is intended to be lightweight and fast, in order to be easy to port to 
 --------------------------------------------------------------------
 
 The programming phases of the CAS are the following:
- 1) Numeric calculations using integers
- 2) Numeric calculation using big integers
+ 1) Numerical calculations using integers
+ 2) Numerical calculation using big integers
  3) Numerical calculations using big rationals
  4) Numerical calculations using polynomes
  5) Numerical calculations using symbols/real numbers
@@ -22,7 +22,7 @@ The code is centered around 3 main classes:
 --------------------------------------------------------------------
 
 Compiling using gcc:
-gcc -Wall xtrmcas.c
+gcc -Wall xtrmcas.c xnum.c
 
 Compiling in windows:
-cl xtrmcas.c
+cl xtrmcas.c xnum.c

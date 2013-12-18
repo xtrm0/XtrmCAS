@@ -5,7 +5,7 @@
 /* STUFF FOR BIGINT */
 #define MAX_COL 100
 #define COL_SZ 100000000
-#define PADSTR "%08d"
+#define PADSTR "%08llu"
 typedef unsigned long long int lli;
 
 
